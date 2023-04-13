@@ -40,6 +40,10 @@ tck, u = interpolate.splprep([x, y], k=degree)
 u = np.linspace(0, 1, num=2+int(point_dist(x1,y1,x2,y2)/50.0))
 points = interpolate.splev(u, tck)
 
+print("Drawing line in 3 seconds...")
+time.sleep(5)
+print("Drawing...")
+
 # Move mouse.
 pag.moveTo(x1, y1)
 pag.mouseDown()
