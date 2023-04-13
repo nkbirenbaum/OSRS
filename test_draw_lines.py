@@ -2,10 +2,10 @@ import pyautogui as pag
 import time
 from functions import move_mouse_to
 
-n_lines = 20
+n_lines = 3
 x_start = 300
-y_start = 600
-x_end = x_start + 10
+y_start = 500
+x_end = x_start + 1000
 y_end = y_start + 0
 
 print("Drawing lines in 3 seconds...")

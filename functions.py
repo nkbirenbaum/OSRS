@@ -49,12 +49,10 @@ def move_mouse_to(x_end=0, y_end=0, x_tol=0, y_tol=0):
     # Approximate using Bezier spline (degree must be < # of cp)
     degree = 3 if cp > 3 else cp - 1
     tck, u = interpolate.splprep([cp_x, cp_y], k=degree)
-    # Move up to a certain number of points
-    u = np.linspace(0, 1, num=2+int(distance/20.0))
+    n_points = 2 + int(distance/10.0)
+    u = np.linspace(0, 1, num=n_points)
     points = interpolate.splev(u, tck)
     point_list=zip(*(i.astype(int) for i in points))
-    # print("n_points:", points.length())
-    # print("List:", points)
 
     # Timing of mouse movement
     duration = 0.05 + distance*(1+random.random())/5000
