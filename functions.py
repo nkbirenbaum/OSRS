@@ -31,30 +31,36 @@ def move_mouse_to(x_end=0, y_end=0, x_tol=0, y_tol=0):
     distance = math.sqrt((x_end - x_start) ** 2 + (y_end - y_start) ** 2)
 
     # Distribute control points between start and destination evenly
-    cp = random.randint(3, 5) # Number of bezier curve control points (must be at least 2)
-    x = np.linspace(x_start, x_end, num=cp, dtype='int')
-    y = np.linspace(y_start, y_end, num=cp, dtype='int')
+    cp = random.randint(3, 5)
+    cp_x = np.linspace(x_start, x_end, num=cp, dtype='int')
+    cp_y = np.linspace(y_start, y_end, num=cp, dtype='int')
 
-    # Randomise inner control points a bit (+/-randomness at most)
-    randomness = 40
-    xr = [random.randint(-randomness, randomness) for k in range(cp)]
-    yr = [random.randint(-randomness, randomness) for k in range(cp)]
-    xr[0] = yr[0] = xr[-1] = yr[-1] = 0
-    x += xr
-    y += yr
+    # Randomize inner control points a bit (+/-randomness at most)
+    randomness = int(distance/10)
+    cp_x_offset = [random.randint(-randomness, randomness) for k in range(cp)]
+    cp_y_offset = [random.randint(-randomness, randomness) for k in range(cp)]
+    cp_x_offset[0] = 0
+    cp_x_offset[-1] = 0
+    cp_y_offset[0] = 0
+    cp_y_offset[-1] = 0
+    cp_x += cp_x_offset
+    cp_y += cp_y_offset
 
-    # Approximate using Bezier spline
-    degree = 3 if cp > 3 else cp - 1  # Degree of b-spline must be < # of control points
-    tck, u = interpolate.splprep([x, y], k=degree)
+    # Approximate using Bezier spline (degree must be < # of cp)
+    degree = 3 if cp > 3 else cp - 1
+    tck, u = interpolate.splprep([cp_x, cp_y], k=degree)
     # Move up to a certain number of points
-    u = np.linspace(0, 1, num=2+int(distance/10.0))
+    u = np.linspace(0, 1, num=2+int(distance/20.0))
     points = interpolate.splev(u, tck)
+    point_list=zip(*(i.astype(int) for i in points))
+    # print("n_points:", points.length())
+    # print("List:", points)
+
+    # Timing of mouse movement
+    duration = 0.05 + distance*(1+random.random())/5000
+    timeout = duration / len(points[0])
 
     # Move mouse
-    duration = 0.4
-    timeout = duration / len(points[0])
-    point_list=zip(*(i.astype(int) for i in points))
-    print("List:", point_list)
     for point in point_list:
         pag.moveTo(*point)
         time.sleep(timeout)
