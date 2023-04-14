@@ -17,6 +17,5 @@ for x in range(n_lines):
     pag.mouseDown()
     move_mouse_to(x_end, y_end, 0, 0)
     pag.mouseUp()
-    print("-------------")
 
 print("Drawing complete.")

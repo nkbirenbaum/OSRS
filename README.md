@@ -3,8 +3,8 @@
 Readme goes here.
 
 # To do
-- Implement mouse overshoots
-- Quadratic spacing of points to emulate wrist acceleration
+- move_mouse_to 
+-- Implement mouse overshoots 
 
 # Useful commands
 + Update requirements: pip freeze > requirements.txt 

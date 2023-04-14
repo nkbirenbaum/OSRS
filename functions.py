@@ -4,14 +4,13 @@ import numpy as np
 import time
 from scipy import interpolate
 import math
-import mouse
 
 pag.MINIMUM_DURATION = 0 # Default: 0.1, any duration less than this is rounded to 0.0 to instantly move the mouse
 pag.MINIMUM_SLEEP = 0    # Default: 0.05, minimal number of seconds to sleep between mouse moves
 pag.PAUSE = 0            # Default: 0.1, the number of seconds to pause after EVERY public function call
 
 # move_mouse_to function based on https://stackoverflow.com/questions/44467329/pyautogui-mouse-movement-with-bezier-curve
-def move_mouse_to(x_end=0, y_end=0, x_tol=0, y_tol=0):
+def move_mouse_to(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True):
     
     # Adjust tolerance if potentially out of bounds
     screen_width, screen_height = pag.size()
@@ -49,8 +48,15 @@ def move_mouse_to(x_end=0, y_end=0, x_tol=0, y_tol=0):
     # Approximate using Bezier spline (degree must be < # of cp)
     degree = 3 if cp > 3 else cp - 1
     tck, u = interpolate.splprep([cp_x, cp_y], k=degree)
-    n_points = 2 + int(distance/10.0)
-    u = np.linspace(0, 1, num=n_points)
+    n_points = 1 + int(distance/20.0)
+    if acceleration:
+        u_temp = np.sqrt(np.linspace(0, 1, num=n_points))
+        u_right = np.add(np.divide(u_temp, 2), 0.5)
+        u_temp2 = np.subtract(1, np.flip(np.delete(u_temp, 0)))
+        u_left = np.divide(np.abs(u_temp2), 2)
+        u = np.concatenate((u_left, u_right))
+    else:
+        u = np.linspace(0, 1, num=n_points)
     points = interpolate.splev(u, tck)
     point_list=zip(*(i.astype(int) for i in points))
 
