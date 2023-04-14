@@ -115,6 +115,7 @@ def action_delay():
         d = random.gaussian(mu, sigma)
     time.sleep(d)
 
+# Countdown for a given number of seconds with sound cues
 def countdown(iterations=3):
     
     iterations = int(iterations)
