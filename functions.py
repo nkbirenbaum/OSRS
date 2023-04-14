@@ -9,10 +9,15 @@ pag.MINIMUM_DURATION = 0 # Default: 0.1, any duration less than this is rounded 
 pag.MINIMUM_SLEEP = 0    # Default: 0.05, minimal number of seconds to sleep between mouse moves
 pag.PAUSE = 0            # Default: 0.1, the number of seconds to pause after EVERY public function call
 
-# move_mouse_to function based on https://stackoverflow.com/questions/44467329/pyautogui-mouse-movement-with-bezier-curve
-def move_mouse_to(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True):
+def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True, relative=False):
     
-    # Adjust tolerance if potentially out of bounds
+    # Adjust endpoints if mouse movement is relative
+    if relative:
+        x_start, y_start = pag.position()
+        x_end += x_start
+        y_end += y_start
+
+    # Adjust tolerances if potentially out of bounds
     screen_width, screen_height = pag.size()
     if x_end + x_tol > screen_width:
         x_tol = screen_width-x_end-1
@@ -61,7 +66,7 @@ def move_mouse_to(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True):
     point_list=zip(*(i.astype(int) for i in points))
 
     # Timing of mouse movement
-    duration = 0.05 + distance*(1+random.random())/5000
+    duration = 0.040 + distance*(1+random.random())/6000
     timeout = duration / len(points[0])
 
     # Move mouse
@@ -69,4 +74,23 @@ def move_mouse_to(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True):
         pag.moveTo(*point)
         time.sleep(timeout)
 
-    print("X: ", points[0])
+
+def open_spellbook():
+    pag.keyDown('f6')
+    d = 0.070 + 0.080*random.random()
+    time.sleep(d)
+    pag.keyUp('f6')
+
+def cast_lumbridge_home_teleport():
+    open_spellbook()
+    d = 0.010 + 0.050*random.random()
+    move_mouse_to(1535, 484, 15, 15)
+    pag.mouseDown()
+    d = 0.070 + 0.030*random.random()
+    time.sleep(d)
+    pag.mouseUp()
+
+
+
+# def scan_inventory():
+    # Define here
