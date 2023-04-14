@@ -1,7 +1,9 @@
 import pyautogui as pag
-import time
+import datetime
+from functions import countdown
 
+file_name = datetime.datetime.now().strftime("images\screenshot_%m%d%Y_%I%M%S.png")
 print("Taking screenshot in 3 seconds...")
-time.sleep(3)
-pag.screenshot("images\my_screenshot3.png")
-print("Screenshot saved.")
+countdown(3)
+pag.screenshot(file_name)
+print("Screenshot saved as ", file_name, ".")

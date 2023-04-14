@@ -4,6 +4,7 @@ import numpy as np
 import time
 from scipy import interpolate
 import math
+import winsound
 
 pag.MINIMUM_DURATION = 0 # Default: 0.1, any duration less than this is rounded to 0.0 to instantly move the mouse
 pag.MINIMUM_SLEEP = 0    # Default: 0.05, minimal number of seconds to sleep between mouse moves
@@ -74,23 +75,17 @@ def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True, relative=F
         pag.moveTo(*point)
         time.sleep(timeout)
 
-
-def open_spellbook():
-    pag.keyDown('f6')
-    d = 0.070 + 0.080*random.random()
-    time.sleep(d)
-    pag.keyUp('f6')
-
-def cast_lumbridge_home_teleport():
-    open_spellbook()
-    d = 0.010 + 0.050*random.random()
-    move_mouse_to(1535, 484, 15, 15)
-    pag.mouseDown()
-    d = 0.070 + 0.030*random.random()
-    time.sleep(d)
-    pag.mouseUp()
-
-
+def countdown(iterations=3):
+    
+    iterations = int(iterations)
+    frequency = 1000
+    frequency2 = 1500
+    duration = 200
+    duration2 = 400
+    for k in range(iterations):
+        winsound.Beep(frequency, duration)
+        time.sleep(0.8)
+    winsound.Beep(frequency2, duration)
 
 # def scan_inventory():
     # Define here
