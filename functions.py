@@ -35,7 +35,7 @@ def move_mouse_to(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True):
     cp_y = np.linspace(y_start, y_end, num=cp, dtype='int')
 
     # Randomize inner control points a bit (+/-randomness at most)
-    randomness = int(distance/10)
+    randomness = int(distance/15)
     cp_x_offset = [random.randint(-randomness, randomness) for k in range(cp)]
     cp_y_offset = [random.randint(-randomness, randomness) for k in range(cp)]
     cp_x_offset[0] = 0
@@ -68,3 +68,5 @@ def move_mouse_to(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True):
     for point in point_list:
         pag.moveTo(*point)
         time.sleep(timeout)
+
+    print("X: ", points[0])

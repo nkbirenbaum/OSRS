@@ -2,7 +2,7 @@ import pyautogui as pag
 import time
 from functions import move_mouse_to
 
-n_lines = 3
+n_lines = 10
 x_start = 300
 y_start = 500
 x_end = x_start + 1000
@@ -15,7 +15,7 @@ print("Drawing...")
 for x in range(n_lines):
     move_mouse_to(x_start, y_start)
     pag.mouseDown()
-    move_mouse_to(x_end, y_end, 0, 0)
+    move_mouse_to(x_end, y_end, 5, 5)
     pag.mouseUp()
 
 print("Drawing complete.")
