@@ -75,6 +75,46 @@ def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True, relative=F
         pag.moveTo(*point)
         time.sleep(timeout)
 
+# Presses given key with random duration
+def press_key(key=''):
+    
+    # Randomize duration
+    mu = 0.090
+    sigma = 0.020
+    d = 0
+    while d < 0.030:
+        d = random.gaussian(mu, sigma)
+
+    # Press key with duration
+    pag.keyDown(key)
+    time.sleep(d)
+    pag.keyUp(key)
+
+# Clicks left mouse button with random duration
+def click_mouse(button='left'):
+
+    # Randomize duration
+    mu = 0.050
+    sigma = 0.015
+    d = 0
+    while d < 0.025:
+        d = random.gaussian(mu, sigma)
+    
+    # Click mouse with duration
+    pag.mouseDown(button)
+    time.sleep(d)
+    pag.mouseUp(button)
+
+# Delay for a random short period between actions
+def action_delay():
+
+    mu = 0.030
+    sigma = 0.015
+    d = 0
+    while d < 0.010:
+        d = random.gaussian(mu, sigma)
+    time.sleep(d)
+
 def countdown(iterations=3):
     
     iterations = int(iterations)

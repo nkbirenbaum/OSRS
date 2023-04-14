@@ -1,23 +1,22 @@
 import pyautogui as pag
 import time
-import random
 from functions import move_mouse
+from functions import press_key
+from functions import click_mouse
+from functions import action_delay
 
+# Opens spellbook
 def open_spellbook():
 
-    pag.keyDown('f6')
-    d = 0.070 + 0.080*random.random()
-    time.sleep(d)
-    pag.keyUp('f6')
+    press_key('f6')
     print("Spellbook opened.")
 
+# Casts lumbridge home teleport
 def cast_lumbridge_home_teleport():
 
     open_spellbook()
-    d = 0.010 + 0.050*random.random()
+    action_delay()
     move_mouse(1535, 484, 15, 15)
-    pag.mouseDown()
-    d = 0.070 + 0.030*random.random()
-    time.sleep(d)
-    pag.mouseUp()
+    action_delay()
+    click_mouse()
     time.sleep(11)
