@@ -1,32 +1,38 @@
 import pyautogui as pag
 import time
 import winsound
+import numpy as np
+from functions import countdown
 
 frequency = 2000
 duration = 300
 
+# Initialize arrays
+x = np.empty(1, 4)
+y = np.empty(1, 4)
+
 # Acquire coordinates
 print("Getting coordinates in 3 seconds...")
-time.sleep(3)
-x1, y1 = pag.position()
-winsound.Beep(frequency, duration)
-time.sleep(2)
-x2, y2 = pag.position()
-winsound.Beep(frequency, duration)
-time.sleep(2)
-x3, y3 = pag.position()
-winsound.Beep(frequency, duration)
-time.sleep(2)
-x4, y4 = pag.position()
-winsound.Beep(frequency, duration)
-winsound.Beep(frequency+500, duration)
-print("Coordinate acquisition complete.")
+countdown()
+time.sleep(0.5)
+n = 4
+for ii in range(n):
+    x[ii], y[ii] = pag.position()
+    if ii == n-1:
+        winsound.Beep(frequency+500, duration)
+    else:
+        winsound.Beep(frequency, duration)
+        time.sleep(2)
 
-# Print coordinates
+# Calculate metrics
+x_max = np.max(x)
+y_max = np.max(y)
+x_min = np.min(x)
+y_min = np.min(y)
+
+# Print coordinates & metrics
 print("Coordinates:")
-print("X1: ", x1, "\t\tY1: ", y1)
-print("X2: ", x2, "\t\tY2: ", y2)
-print("X3: ", x3, "\t\tY3: ", y3)
-print("X4: ", x4, "\t\tY4: ", y4)
-
-# Print metrics
+for ii in range(n):
+    print("Point ", ii, ": (", x[ii], ", ", y[ii], ")")
+print("Max: (", x_max, ", ", y_max, ")")
+print("Min: (", x_min, ", ", y_min, ")")
