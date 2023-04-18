@@ -9,7 +9,7 @@ location = pag.locate("C:\Programming\OSRS\images\icons\\runelite.png", screensh
 print(location)
 x = location[0]
 y = location[1]
-os.environ['runelite_logo_x'] = str(584)
-os.environ['runelite_logo_y'] = str(227)
+os.environ['RUNELITE_POS_X'] = str(x)
+os.environ['RUNELITE_POS_Y'] = str(y)
 
 print("Updated environment variables.")

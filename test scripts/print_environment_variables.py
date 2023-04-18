@@ -1,4 +1,4 @@
 import os
-print(os.environ)
-print(os.environ['runelite_logo_x'])
-print(os.environ['runelite_logo_y'])
+# print(os.environ)
+print(os.environ['RUNELITE_POS_X'])
+print(os.environ['RUNELITE_POS_Y'])
