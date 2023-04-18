@@ -128,5 +128,21 @@ def countdown(iterations=3):
         time.sleep(0.8)
     winsound.Beep(frequency2, duration)
 
+# Capture specified area of the screen
+def capture_screen(area="all")
+    
+    match area:
+        case "all":
+            im = pag.screenshot()
+            return im
+        case "runelite":
+            
+        case _:
+            print("Error in capture_screen().", area, " is not a recognized area.")
+            im = 0
+    return im
+
+
+
 # def scan_inventory():
     # Define here
