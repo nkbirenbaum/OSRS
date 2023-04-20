@@ -8,4 +8,4 @@ Readme goes here.
 
 # Useful commands
 + Update requirements: pip freeze > requirements.txt 
-+ 
++ Remove from GitHub after pushing: git rm --cached FILE_NAME
