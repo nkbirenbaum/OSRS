@@ -145,13 +145,14 @@ def update_runelite_window_position():
         x = location[0]
         y = location[1]
     except:
-        print("Error: Could not location RuneLite window position in update_runelite_window_position()")
+        print("Error: Could not locate RuneLite window in update_runelite_window_position()")
         return 0
 
     # Sets environment variables
     dotenv_path = os.getcwd() + "\.env"
     set_key(dotenv_path, 'RUNELITE_WINDOW_X', str(x))
     set_key(dotenv_path, 'RUNELITE_WINDOW_Y', str(y))
+    print(f"RuneLite window postion updated to (%i, %i) in .env." % (x, y))
 
 
 # Capture specified area of the screen
