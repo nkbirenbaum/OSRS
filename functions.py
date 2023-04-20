@@ -140,13 +140,10 @@ def update_runelite_window_position():
 
     # Locate position of RuneLite window logo
     try:
-        # screenshot = pag.screenshot()
-        # location = pag.locateOnScreen("C:\Programming\OSRS\images\icons\\runelite.png", screenshot)
-        location = pag.locateOnScreen("C:\Programming\OSRS\images\icons\\runelite.png")
-        print(location)
+        runelite_icon_file = os.getcwd() + "\images\icons\\runelite.png"
+        location = pag.locateOnScreen(runelite_icon_file)
         x = location[0]
         y = location[1]
-
     except:
         print("Error: Could not location RuneLite window position in update_runelite_window_position()")
         return 0
