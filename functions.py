@@ -5,6 +5,8 @@ import time
 from scipy import interpolate
 import math
 import winsound
+import os
+from dotenv import set_key
 
 pag.MINIMUM_DURATION = 0 # Default: 0.1, any duration less than this is rounded to 0.0 to instantly move the mouse
 pag.MINIMUM_SLEEP = 0    # Default: 0.05, minimal number of seconds to sleep between mouse moves
@@ -75,6 +77,7 @@ def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True, relative=F
         pag.moveTo(*point)
         time.sleep(timeout)
 
+
 # Presses given key with random duration
 def press_key(key=''):
     
@@ -89,6 +92,7 @@ def press_key(key=''):
     pag.keyDown(key)
     time.sleep(d)
     pag.keyUp(key)
+
 
 # Clicks left mouse button with random duration
 def click_mouse(button='left'):
@@ -105,6 +109,7 @@ def click_mouse(button='left'):
     time.sleep(d)
     pag.mouseUp(button)
 
+
 # Delay for a random short period between actions
 def action_delay():
 
@@ -114,6 +119,7 @@ def action_delay():
     while d < 0.010:
         d = random.gaussian(mu, sigma)
     time.sleep(d)
+
 
 # Countdown for a given number of seconds with sound cues
 def countdown(iterations=3):
@@ -126,7 +132,30 @@ def countdown(iterations=3):
     for k in range(iterations):
         winsound.Beep(frequency, duration)
         time.sleep(0.8)
-    winsound.Beep(frequency2, duration)
+    winsound.Beep(frequency2, duration2)
+
+
+# Updates the X and Y coordinates of the RuneLite window
+def update_runelite_window_position():
+
+    # Locate position of RuneLite window logo
+    try:
+        # screenshot = pag.screenshot()
+        # location = pag.locateOnScreen("C:\Programming\OSRS\images\icons\\runelite.png", screenshot)
+        location = pag.locateOnScreen("C:\Programming\OSRS\images\icons\\runelite.png")
+        print(location)
+        x = location[0]
+        y = location[1]
+
+    except:
+        print("Error: Could not location RuneLite window position in update_runelite_window_position()")
+        return 0
+
+    # Sets environment variables
+    dotenv_path = os.getcwd() + "\.env"
+    set_key(dotenv_path, 'RUNELITE_WINDOW_X', str(x))
+    set_key(dotenv_path, 'RUNELITE_WINDOW_Y', str(y))
+
 
 # Capture specified area of the screen
 def capture_screen(area="all"):
