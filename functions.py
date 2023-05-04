@@ -77,6 +77,14 @@ def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True, relative=F
         pag.moveTo(*point)
         time.sleep(timeout)
 
+    # Print new mouse coordinates
+    flag_debug_mouse_position = int(os.getenv('FLAG_DEBUG_MOUSE_POSITION'))
+    if flag_debug_mouse_position:
+        print("IF CASE MOUSE MOVEMENT")
+        # print(f"Mouse moved to (%i, %i)." % (x_end, y_end))
+    else:
+        print("ELSE CASE MOUSE MOVEMENT")
+
 
 # Presses given key with random duration
 def press_key(key=''):
