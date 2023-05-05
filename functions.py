@@ -202,6 +202,13 @@ def capture_screen(area='all'):
             w = 520
             h = 165
             im = pag.screenshot(region=(x, y, w, h))
+        case 'minimap':
+            load_dotenv()
+            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 8 + 512
+            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 31 - 4
+            w = 249
+            h = 168
+            im = pag.screenshot(region=(x, y, w, h))
         case _:
             im = 0
             print("Error in capture_screen().", area, " is not a recognized area.")
