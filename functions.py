@@ -7,6 +7,7 @@ import math
 import winsound
 import os
 from dotenv import set_key
+from dotenv import load_dotenv
 
 pag.MINIMUM_DURATION = 0 # Default: 0.1, any duration less than this is rounded to 0.0 to instantly move the mouse
 pag.MINIMUM_SLEEP = 0    # Default: 0.05, minimal number of seconds to sleep between mouse moves
@@ -78,12 +79,14 @@ def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True, relative=F
         time.sleep(timeout)
 
     # Print new mouse coordinates
-    flag_debug_mouse_position = int(os.getenv('FLAG_DEBUG_MOUSE_POSITION'))
-    if flag_debug_mouse_position:
-        print("IF CASE MOUSE MOVEMENT")
-        # print(f"Mouse moved to (%i, %i)." % (x_end, y_end))
-    else:
-        print("ELSE CASE MOUSE MOVEMENT")
+    load_dotenv()
+    flag_debug_mouse_position = os.environ.get('FLAG_DEBUG_MOUSE_POSITION')
+    print(int(flag_debug_mouse_position))
+    # if int(flag_debug_mouse_position):
+    #     print("IF CASE MOUSE MOVEMENT")
+    #     # print(f"Mouse moved to (%i, %i)." % (x_end, y_end))
+    # else:
+    #     print("ELSE CASE MOUSE MOVEMENT")
 
 
 # Presses given key with random duration
