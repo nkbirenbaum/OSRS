@@ -101,7 +101,7 @@ def press_key(key=''):
     pag.keyUp(key)
 
 
-# Clicks left mouse button with random duration
+# Clicks mouse button with random duration
 def click_mouse(button='left'):
 
     # Randomize duration
@@ -169,13 +169,25 @@ def update_runelite_window_position():
 
 
 # Capture specified area of the screen
-def capture_screen(area="all"):
+def capture_screen(area='all'):
     
     match area:
-        case "all":
+        case 'all':
             im = pag.screenshot()
-        case "runelite":
-            im = pag.screenshot()
+        case 'runelite':
+            load_dotenv()
+            x = int(os.environ.get('RUNELITE_WINDOW_X'))
+            y = int(os.environ.get('RUNELITE_WINDOW_y'))
+            w = 801
+            h = 528
+            im = pag.screenshot(region=(x, y, w, h))
+        case 'game':
+            load_dotenv()
+            x = int(os.environ.get('RUNELITE_WINDOW_X'))
+            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 21
+            w = 801 - 40
+            h = 528 - 21 - 4
+            im = pag.screenshot(region=(x, y, w, h))            
         case _:
             im = 0
             print("Error in capture_screen().", area, " is not a recognized area.")
