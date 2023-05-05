@@ -211,10 +211,10 @@ def capture_screen(area='all'):
             im = pag.screenshot(region=(x, y, w, h))
         case 'interface':
             load_dotenv()
-            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 520
-            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 27 + 168
-            w = 280
-            h = 350
+            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 526
+            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 195
+            w = 241
+            h = 335
             im = pag.screenshot(region=(x, y, w, h))
         case _:
             im = 0
