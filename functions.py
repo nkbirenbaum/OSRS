@@ -178,15 +178,15 @@ def capture_screen(area='all'):
             load_dotenv()
             x = int(os.environ.get('RUNELITE_WINDOW_X'))
             y = int(os.environ.get('RUNELITE_WINDOW_y'))
-            w = 801
-            h = 528
+            w = 809
+            h = 534
             im = pag.screenshot(region=(x, y, w, h))
         case 'game':
             load_dotenv()
-            x = int(os.environ.get('RUNELITE_WINDOW_X'))
+            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 4
             y = int(os.environ.get('RUNELITE_WINDOW_y')) + 21
-            w = 801 - 40
-            h = 528 - 21 - 4
+            w = 809 - 40 - 4
+            h = 534 - 21 - 4
             im = pag.screenshot(region=(x, y, w, h))            
         case _:
             im = 0
