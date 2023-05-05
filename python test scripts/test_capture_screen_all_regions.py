@@ -6,9 +6,9 @@ sys.path.append(parent_dir_name)
 from functions import countdown
 from functions import capture_screen
 
-print("Executing test_capture_screen_game.py...")
+print("Executing test_capture_screen_all_regions.py...")
 time.sleep(0.5)
 countdown(3)
-im = capture_screen('game')
+im = capture_screen('all_regions')
 im.show()
-print("Completed test_capture_screen_game.py.")
+print("Completed test_capture_screen_all_regions.py.")

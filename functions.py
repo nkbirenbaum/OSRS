@@ -181,13 +181,20 @@ def capture_screen(area='all'):
             w = 809
             h = 534
             im = pag.screenshot(region=(x, y, w, h))
-        case 'game':
+        case 'all_regions':
             load_dotenv()
             x = int(os.environ.get('RUNELITE_WINDOW_X')) + 4
             y = int(os.environ.get('RUNELITE_WINDOW_y')) + 27
             w = 809 - 40 - 4
             h = 534 - 27 - 4
-            im = pag.screenshot(region=(x, y, w, h))            
+            im = pag.screenshot(region=(x, y, w, h))
+        case 'game':
+            load_dotenv()
+            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 4
+            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 27
+            w = 600
+            h = 400
+            im = pag.screenshot(region=(x, y, w, h))
         case _:
             im = 0
             print("Error in capture_screen().", area, " is not a recognized area.")
