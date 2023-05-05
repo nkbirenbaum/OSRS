@@ -143,6 +143,7 @@ def countdown(iterations=3):
     duration = 200
     duration2 = 400
     for k in range(iterations):
+        print(iterations-k)
         winsound.Beep(frequency, duration)
         time.sleep(0.8)
     winsound.Beep(frequency2, duration2)
