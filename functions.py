@@ -204,10 +204,17 @@ def capture_screen(area='all'):
             im = pag.screenshot(region=(x, y, w, h))
         case 'minimap':
             load_dotenv()
-            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 8 + 512
-            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 31 - 4
+            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 520
+            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 27
             w = 249
             h = 168
+            im = pag.screenshot(region=(x, y, w, h))
+        case 'interface':
+            load_dotenv()
+            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 520
+            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 27 + 168
+            w = 280
+            h = 350
             im = pag.screenshot(region=(x, y, w, h))
         case _:
             im = 0
