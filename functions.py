@@ -223,6 +223,69 @@ def capture_screen(area='all'):
     return im
 
 
+# Returns specified skill level
+def get_skill_level(skill='attack', currentOrMax='current'):
 
-# def scan_inventory():
-    # Define here
+    # Capture skill interface
+    press_key('f2')
+    im = capture_screen(area='interface')
+    
+    # Get position for skill
+    skill = skill.lower()
+    position = (0, 0, 0, 0)
+    match skill:
+        case 'attack':
+            position = (27, 39, 60, 30)
+        case 'strength':
+            position = (27, 71, 60, 30)
+        case 'defence':
+            position = (27, 103, 60, 30)
+        case 'ranged':
+            position = (27, 135, 60, 30)
+        case 'prayer': 
+            position = (27, 167, 60, 30)
+        case 'magic':
+            position = (27, 199, 60, 30)
+        case 'runecraft':
+            position = (27, 231, 60, 30)
+        case 'construction':
+            position = (27, 263, 60, 30)
+        case 'hitpoints':
+            position = (90, 39, 60, 30)
+        case 'agility':
+            position = (90, 71, 60, 30)
+        case 'herblore':
+            position = (90, 103, 60, 30)
+        case 'theiving':
+            position = (90, 135, 60, 30)
+        case 'crafting': 
+            position = (90, 167, 60, 30)
+        case 'fletching':
+            position = (90, 199, 60, 30)
+        case 'slayer':
+            position = (90, 231, 60, 30)
+        case 'hunting':
+            position = (90, 263, 60, 30)
+        case 'mining':
+            position = (153, 39, 60, 30)
+        case 'smithing':
+            position = (153, 71, 60, 30)
+        case 'fishing':
+            position = (153, 103, 60, 30)
+        case 'cooking':
+            position = (153, 135, 60, 30)
+        case 'firemaking': 
+            position = (153, 167, 60, 30)
+        case 'woodcutting':
+            position = (153, 199, 60, 30)
+        case 'farming':
+            position = (153, 231, 60, 30)
+        case 'total':
+            position = (153, 263, 60, 30)
+        case _:
+            print("Error in get_skill_level().", skill, " is not a recognized skill.")
+
+    
+    level = 0
+
+    return level
