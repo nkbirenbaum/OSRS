@@ -80,13 +80,9 @@ def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True, relative=F
 
     # Print new mouse coordinates
     load_dotenv()
-    flag_debug_mouse_position = os.environ.get('FLAG_DEBUG_MOUSE_POSITION')
-    print(int(flag_debug_mouse_position))
-    # if int(flag_debug_mouse_position):
-    #     print("IF CASE MOUSE MOVEMENT")
-    #     # print(f"Mouse moved to (%i, %i)." % (x_end, y_end))
-    # else:
-    #     print("ELSE CASE MOUSE MOVEMENT")
+    flag_debug_mouse_position = int(os.environ.get('FLAG_DEBUG_MOUSE_POSITION'))
+    if flag_debug_mouse_position:
+        print(f"Mouse moved to (%i, %i)." % (x_end, y_end))
 
 
 # Presses given key with random duration
