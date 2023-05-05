@@ -195,6 +195,13 @@ def capture_screen(area='all'):
             w = 512
             h = 334
             im = pag.screenshot(region=(x, y, w, h))
+        case 'chat':
+            load_dotenv()
+            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 4
+            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 365
+            w = 520
+            h = 165
+            im = pag.screenshot(region=(x, y, w, h))
         case _:
             im = 0
             print("Error in capture_screen().", area, " is not a recognized area.")
