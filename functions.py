@@ -93,7 +93,7 @@ def press_key(key=''):
     sigma = 0.020
     d = 0
     while d < 0.030:
-        d = random.gaussian(mu, sigma)
+        d = random.gauss(mu, sigma)
 
     # Press key with duration
     pag.keyDown(key)
@@ -130,7 +130,7 @@ def action_delay():
     sigma = 0.015
     d = 0
     while d < 0.010:
-        d = random.gaussian(mu, sigma)
+        d = random.gauss(mu, sigma)
     time.sleep(d)
 
 
