@@ -109,12 +109,18 @@ def click_mouse(button='left'):
     sigma = 0.015
     d = 0
     while d < 0.025:
-        d = random.gaussian(mu, sigma)
+        d = random.gauss(mu, sigma)
     
     # Click mouse with duration
-    pag.mouseDown(button)
+    pag.mouseDown(button=button)
     time.sleep(d)
-    pag.mouseUp(button)
+    pag.mouseUp(button=button)
+
+    # Print new mouse coordinates
+    load_dotenv()
+    flag_debug_mouse_click = int(os.environ.get('FLAG_DEBUG_MOUSE_CLICK'))
+    if flag_debug_mouse_click:
+        print(f"Mouse click (%s)." % (button))
 
 
 # Delay for a random short period between actions
