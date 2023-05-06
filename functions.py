@@ -6,6 +6,9 @@ from scipy import interpolate
 import math
 import winsound
 import os
+import cv2
+# from pytesseract import image_to_string
+import pytesseract
 from dotenv import set_key
 from dotenv import load_dotenv
 
@@ -226,66 +229,133 @@ def capture_screen(area='all'):
 # Returns specified skill level
 def get_skill_level(skill='attack', currentOrMax='current'):
 
-    # Capture skill interface
-    press_key('f2')
-    im = capture_screen(area='interface')
-    
     # Get position for skill
     skill = skill.lower()
-    position = (0, 0, 0, 0)
+    x1 = 0
+    y1 = 0
     match skill:
         case 'attack':
-            position = (27, 39, 60, 30)
+            # position = (27, 39, 60, 30)
+            x1 = 27
+            y1 = 39
         case 'strength':
-            position = (27, 71, 60, 30)
+            # position = (27, 71, 60, 30)
+            x1 = 27
+            y1 = 71
         case 'defence':
-            position = (27, 103, 60, 30)
+            # position = (27, 103, 60, 30)
+            x1 = 27
+            y1 = 103
         case 'ranged':
-            position = (27, 135, 60, 30)
+            # position = (27, 135, 60, 30)
+            x1 = 27
+            y1 = 135
         case 'prayer': 
-            position = (27, 167, 60, 30)
+            # position = (27, 167, 60, 30)
+            x1 = 27
+            y1 = 167
         case 'magic':
-            position = (27, 199, 60, 30)
+            # position = (27, 199, 60, 30)
+            x1 = 27
+            y1 = 199
         case 'runecraft':
-            position = (27, 231, 60, 30)
+            # position = (27, 231, 60, 30)
+            x1 = 27
+            y1 = 231
         case 'construction':
-            position = (27, 263, 60, 30)
+            # position = (27, 263, 60, 30)
+            x1 = 27
+            y1 = 263
         case 'hitpoints':
-            position = (90, 39, 60, 30)
+            # position = (90, 39, 60, 30)
+            x1 = 90
+            y1 = 39
         case 'agility':
-            position = (90, 71, 60, 30)
+            # position = (90, 71, 60, 30)
+            x1 = 90
+            y1 = 71
         case 'herblore':
-            position = (90, 103, 60, 30)
+            # position = (90, 103, 60, 30)
+            x1 = 90
+            y1 = 103
         case 'theiving':
-            position = (90, 135, 60, 30)
+            # position = (90, 135, 60, 30)
+            x1 = 90
+            y1 = 135
         case 'crafting': 
-            position = (90, 167, 60, 30)
+            # position = (90, 167, 60, 30)
+            x1 = 90
+            y1 = 167
         case 'fletching':
-            position = (90, 199, 60, 30)
+            # position = (90, 199, 60, 30)
+            x1 = 90
+            y1 = 199
         case 'slayer':
-            position = (90, 231, 60, 30)
+            # position = (90, 231, 60, 30)
+            x1 = 90
+            y1 = 231
         case 'hunting':
-            position = (90, 263, 60, 30)
+            # position = (90, 263, 60, 30)
+            x1 = 90
+            y1 = 263
         case 'mining':
-            position = (153, 39, 60, 30)
+            # position = (153, 39, 60, 30)
+            x1 = 153
+            y1 = 39
         case 'smithing':
-            position = (153, 71, 60, 30)
+            # position = (153, 71, 60, 30)
+            x1 = 153
+            y1 = 71
         case 'fishing':
-            position = (153, 103, 60, 30)
+            # position = (153, 103, 60, 30)
+            x1 = 153
+            y1 = 103
         case 'cooking':
-            position = (153, 135, 60, 30)
+            # position = (153, 135, 60, 30)
+            x1 = 153
+            y1 = 135
         case 'firemaking': 
-            position = (153, 167, 60, 30)
+            # position = (153, 167, 60, 30)
+            x1 = 153
+            y1 = 167
         case 'woodcutting':
-            position = (153, 199, 60, 30)
+            # position = (153, 199, 60, 30)
+            x1 = 153
+            y1 = 199
         case 'farming':
-            position = (153, 231, 60, 30)
+            # position = (153, 231, 60, 30)
+            x1 = 153
+            y1 = 231
         case 'total':
-            position = (153, 263, 60, 30)
+            # position = (153, 263, 60, 30)
+            x1 = 153
+            y1 = 263
         case _:
             print("Error in get_skill_level().", skill, " is not a recognized skill.")
+            return 0
+    x2 = x1 + 60
+    y2 = y1 + 30
+
+    # Capture skill interface & extract portion corresponding to skill
+    press_key('f2')
+    im = capture_screen(area='interface')
+    im_cropped = im.crop((x1, y1, x2, y2))
+    # im_cropped.show()
+
+    # Convert to OpenCV format
+    im_cv = cv2.cvtColor(np.array(im_cropped), cv2.COLOR_BGR2RGB)
+    im_gray = cv2.cvtColor(im_cv, cv2.COLOR_BGR2GRAY)
+    im_threshold = cv2.threshold(im_gray, 0, 255, cv2.THRESH_BINARY_INV)[1]
+    # cv2.imshow("Test image", im_threshold)
+    # cv2.waitKey(0)
+    im_text = pytesseract.image_to_string(im_threshold, config="--psm 7")
+    print(im_text)
+    # print("".join([t for t in txt if t != '|']).strip())
 
     
-    level = 0
+    
+    # cv2.imshow("Test image", im_cv)
+    # cv2.waitKey(0)
 
+    level = 0
     return level
