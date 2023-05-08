@@ -7,13 +7,11 @@ import math
 import winsound
 import os
 import cv2
-# from pytesseract import image_to_string
 import pytesseract
 from dotenv import set_key
 from dotenv import load_dotenv
 
-pytesseract.pytesseract.tesseract_cmd = r"C:/Program Files/Tesseract-OCR/tesseract.exe" # Desktop tesseract path
-
+pytesseract.pytesseract.tesseract_cmd = r"C:/Program Files/Tesseract-OCR/tesseract.exe" # Path to tesseract.exe
 
 pag.MINIMUM_DURATION = 0 # Default: 0.1, any duration less than this is rounded to 0.0 to instantly move the mouse
 pag.MINIMUM_SLEEP = 0    # Default: 0.05, minimal number of seconds to sleep between mouse moves
@@ -230,7 +228,7 @@ def capture_screen(area='all'):
 
 
 # Returns specified skill level
-def get_skill_level(skill='attack', currentOrMax='current'):
+def get_skill_level(skill='attack'):
 
     # Get position for skill
     skill = skill.lower()
@@ -238,101 +236,74 @@ def get_skill_level(skill='attack', currentOrMax='current'):
     y1 = 0
     match skill:
         case 'attack':
-            # position = (27, 39, 60, 30)
             x1 = 27
             y1 = 39
         case 'strength':
-            # position = (27, 71, 60, 30)
             x1 = 27
             y1 = 71
         case 'defence':
-            # position = (27, 103, 60, 30)
             x1 = 27
             y1 = 103
         case 'ranged':
-            # position = (27, 135, 60, 30)
             x1 = 27
             y1 = 135
         case 'prayer': 
-            # position = (27, 167, 60, 30)
             x1 = 27
             y1 = 167
         case 'magic':
-            # position = (27, 199, 60, 30)
             x1 = 27
             y1 = 199
         case 'runecraft':
-            # position = (27, 231, 60, 30)
             x1 = 27
             y1 = 231
         case 'construction':
-            # position = (27, 263, 60, 30)
             x1 = 27
             y1 = 263
         case 'hitpoints':
-            # position = (90, 39, 60, 30)
             x1 = 90
             y1 = 39
         case 'agility':
-            # position = (90, 71, 60, 30)
             x1 = 90
             y1 = 71
         case 'herblore':
-            # position = (90, 103, 60, 30)
             x1 = 90
             y1 = 103
         case 'theiving':
-            # position = (90, 135, 60, 30)
             x1 = 90
             y1 = 135
         case 'crafting': 
-            # position = (90, 167, 60, 30)
             x1 = 90
             y1 = 167
         case 'fletching':
-            # position = (90, 199, 60, 30)
             x1 = 90
             y1 = 199
         case 'slayer':
-            # position = (90, 231, 60, 30)
             x1 = 90
             y1 = 231
         case 'hunting':
-            # position = (90, 263, 60, 30)
             x1 = 90
             y1 = 263
         case 'mining':
-            # position = (153, 39, 60, 30)
             x1 = 153
             y1 = 39
         case 'smithing':
-            # position = (153, 71, 60, 30)
             x1 = 153
             y1 = 71
         case 'fishing':
-            # position = (153, 103, 60, 30)
             x1 = 153
             y1 = 103
         case 'cooking':
-            # position = (153, 135, 60, 30)
             x1 = 153
             y1 = 135
         case 'firemaking': 
-            # position = (153, 167, 60, 30)
             x1 = 153
             y1 = 167
         case 'woodcutting':
-            # position = (153, 199, 60, 30)
             x1 = 153
             y1 = 199
         case 'farming':
-            # position = (153, 231, 60, 30)
             x1 = 153
             y1 = 231
-        case 'total':
-            # position = (153, 263, 60, 30)
-            x1 = 153
-            y1 = 263
         case _:
             print("Error in get_skill_level().", skill, " is not a recognized skill.")
             return 0
@@ -343,33 +314,104 @@ def get_skill_level(skill='attack', currentOrMax='current'):
     press_key('f2')
     img_all_skills = capture_screen(area='interface')
     img_skill = img_all_skills.crop((x1, y1, x2, y2))
-    # img_skill.show()
 
-    # Convert to OpenCV format
-    # img_cv = cv2.cvtColor(np.array(img_skill), cv2.COLOR_BGR2RGB)
-    # img_gray = cv2.cvtColor(img_cv, cv2.COLOR_BGR2GRAY)
-    # img_threshold = cv2.threshold(img_gray, 0, 255, cv2.THRESH_BINARY_INV)[1]
-    # cv2.imshow("Test image", img_gray)
-    # cv2.waitKey(0)
-    # img_text = pytesseract.image_to_string(img_threshold, config="--psm 7")
-    # print(img_text)
-    # # print("".join([t for t in txt if t != '|']).strip())
-
+    # Convert to OpenCV format & mask yellow numbers
     img_cv = cv2.cvtColor(np.array(img_skill), cv2.COLOR_BGR2HSV)
-    # lower = np.array([35, 235, 20]) 
-    # upper = np.array([45, 245, 255])
-    img_mask = cv2.inRange(img_cv, (15, 0, 0), (100, 255, 255))
+    hsv_lower = np.array([89, 250, 250])
+    hsv_upper = np.array([91, 255, 255])
+    img_mask = cv2.inRange(img_cv, hsv_lower, hsv_upper)
 
-    # img_gray = cv2.cvtColor(img_cv, cv2.COLOR_BGR2GRAY)
-    # img_threshold = cv2.threshold(img_gray, 0, 255, cv2.THRESH_BINARY_INV)[1]
-    cv2.imshow("Image mask", img_mask)
-    cv2.waitKey(0)
-    # img_text = pytesseract.image_to_string(img_threshold, config="--psm 7")
-    # print(img_text)
-    # print("".join([t for t in txt if t != '|']).strip())
+    # Determine if current & minimum levels have 2 digits
+    img_check_current_level_tens = img_mask[4:12, 34:36]
+    img_check_maximum_level_tens = img_mask[16:24, 46:48]
+    current_level_two_digits = True if img_check_current_level_tens.sum() > 0 else False
+    maximum_level_two_digits = True if img_check_maximum_level_tens.sum() > 0 else False
+
+    # Start and end cropping positions for current & maximum levels
+    y1_c = 4
+    y2_c = 12
+    y1_m = 16
+    y2_m = 24
+    x1_c_1s = 36
+    x2_c_1s = 41
+    x1_m_1s = 48
+    x2_m_1s = 53
     
-    # cv2.imshow("Test image", im_cv)
-    # cv2.waitKey(0)
+    # Read numbers template file
+    try:
+        template_file = os.path.join(os.getcwd(), 'images', 'levels', '0123456789.png')
+        template = cv2.imread(template_file, 0)
+    except:
+        print(f"Error opening template file %s." % (template_file))
 
-    level = 0
-    return level
+    # Get current level ones place values
+    if current_level_two_digits:
+        x1_c_1s += 2
+        x2_c_1s += 2
+    img_current_level_ones = img_mask[y1_c:y2_c, x1_c_1s:x2_c_1s]
+    try:
+        result = cv2.matchTemplate(img_current_level_ones, template, cv2.TM_CCOEFF)
+        _, _, _, top_left = cv2.minMaxLoc(result)
+        current_level_ones = top_left[0]/5
+    except:
+        current_level_ones = 0
+        print(f"Error finding current %s level ones place." % (skill))
+
+    # Get maximum level ones place values
+    if maximum_level_two_digits:
+        x1_m_1s += 2
+        x2_m_1s += 2
+    img_maximum_level_ones = img_mask[y1_m:y2_m, x1_m_1s:x2_m_1s]
+    try:
+        result = cv2.matchTemplate(img_maximum_level_ones, template, cv2.TM_CCOEFF)
+        _, _, _, top_left = cv2.minMaxLoc(result)
+        maximum_level_ones = top_left[0]/5
+    except:
+        maximum_level_ones = 0
+        print(f"Error finding current %s level ones place." % (skill))
+
+    # Get current level tens place values - TESTED 0-12 only
+    current_level_tens = 0
+    if current_level_two_digits:
+        x1_c_10s = 34
+        x2_c_10s = 39
+        fat_num_list = [ 0, 2, 3, 5, 6, 7, 8, 9 ]
+        if current_level_ones in fat_num_list:
+            x1_c_10s -= 1
+            x2_c_10s -= 1
+        img_current_level_tens = img_mask[y1_c:y2_c, x1_c_10s:x2_c_10s]
+        try:
+            result = cv2.matchTemplate(img_current_level_tens, template, cv2.TM_CCOEFF)
+            _, _, _, top_left = cv2.minMaxLoc(result)
+            current_level_tens = top_left[0]/5
+        except: 
+            print(f"Error finding current %s level tens place." % (skill))
+    
+    # Get maximum level tens place values - TESTED 0-12 only
+    maximum_level_tens = 0
+    if maximum_level_two_digits:
+        x1_m_10s = 46
+        x2_m_10s = 51
+        fat_num_list = [ 0, 2, 3, 5, 6, 7, 8, 9 ]
+        if maximum_level_ones in fat_num_list:
+            x1_m_10s -= 1
+            x2_m_10s -= 1
+        img_maximum_level_tens = img_mask[y1_m:y2_m, x1_m_10s:x2_m_10s]
+        try:
+            result = cv2.matchTemplate(img_maximum_level_tens, template, cv2.TM_CCOEFF)
+            _, _, _, top_left = cv2.minMaxLoc(result)
+            maximum_level_tens = top_left[0]/5
+        except:
+            print(f"Error finding maximum %s level tens place." % (skill))
+
+    # Save images 
+    # cv2.imwrite("cur ones.png", img_current_level_ones)
+    # cv2.imwrite("cur tens.png", img_current_level_tens)
+    # cv2.imwrite("max ones.png", img_maximum_level_ones)
+    # cv2.imwrite("max tens.png", img_maximum_level_tens)
+
+    # Calculate current & maximum levels
+    current_level = current_level_ones + 10*current_level_tens
+    maximum_level = maximum_level_ones + 10*maximum_level_tens    
+
+    return (current_level, maximum_level)
