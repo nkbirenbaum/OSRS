@@ -12,6 +12,9 @@ import pytesseract
 from dotenv import set_key
 from dotenv import load_dotenv
 
+pytesseract.pytesseract.tesseract_cmd = r"C:/Program Files/Tesseract-OCR/tesseract.exe" # Desktop tesseract path
+
+
 pag.MINIMUM_DURATION = 0 # Default: 0.1, any duration less than this is rounded to 0.0 to instantly move the mouse
 pag.MINIMUM_SLEEP = 0    # Default: 0.05, minimal number of seconds to sleep between mouse moves
 pag.PAUSE = 0            # Default: 0.1, the number of seconds to pause after EVERY public function call
@@ -338,21 +341,32 @@ def get_skill_level(skill='attack', currentOrMax='current'):
 
     # Capture skill interface & extract portion corresponding to skill
     press_key('f2')
-    im = capture_screen(area='interface')
-    im_cropped = im.crop((x1, y1, x2, y2))
-    # im_cropped.show()
+    img_all_skills = capture_screen(area='interface')
+    img_skill = img_all_skills.crop((x1, y1, x2, y2))
+    # img_skill.show()
 
     # Convert to OpenCV format
-    im_cv = cv2.cvtColor(np.array(im_cropped), cv2.COLOR_BGR2RGB)
-    im_gray = cv2.cvtColor(im_cv, cv2.COLOR_BGR2GRAY)
-    im_threshold = cv2.threshold(im_gray, 0, 255, cv2.THRESH_BINARY_INV)[1]
-    # cv2.imshow("Test image", im_threshold)
+    # img_cv = cv2.cvtColor(np.array(img_skill), cv2.COLOR_BGR2RGB)
+    # img_gray = cv2.cvtColor(img_cv, cv2.COLOR_BGR2GRAY)
+    # img_threshold = cv2.threshold(img_gray, 0, 255, cv2.THRESH_BINARY_INV)[1]
+    # cv2.imshow("Test image", img_gray)
     # cv2.waitKey(0)
-    im_text = pytesseract.image_to_string(im_threshold, config="--psm 7")
-    print(im_text)
-    # print("".join([t for t in txt if t != '|']).strip())
+    # img_text = pytesseract.image_to_string(img_threshold, config="--psm 7")
+    # print(img_text)
+    # # print("".join([t for t in txt if t != '|']).strip())
 
-    
+    img_cv = cv2.cvtColor(np.array(img_skill), cv2.COLOR_BGR2HSV)
+    # lower = np.array([35, 235, 20]) 
+    # upper = np.array([45, 245, 255])
+    img_mask = cv2.inRange(img_cv, (15, 0, 0), (100, 255, 255))
+
+    # img_gray = cv2.cvtColor(img_cv, cv2.COLOR_BGR2GRAY)
+    # img_threshold = cv2.threshold(img_gray, 0, 255, cv2.THRESH_BINARY_INV)[1]
+    cv2.imshow("Image mask", img_mask)
+    cv2.waitKey(0)
+    # img_text = pytesseract.image_to_string(img_threshold, config="--psm 7")
+    # print(img_text)
+    # print("".join([t for t in txt if t != '|']).strip())
     
     # cv2.imshow("Test image", im_cv)
     # cv2.waitKey(0)

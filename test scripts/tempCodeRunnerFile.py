@@ -1,1 +1,1 @@
-print(f"Completed %s." % file_name)
+get_skill_level

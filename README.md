@@ -13,3 +13,6 @@ Readme goes here.
     + pip install -r requirements.txt 
 + Remove from GitHub after pushing: 
     + git rm --cached FILE_NAME 
++ Install pytesseract:
+    + https://stackoverflow.com/questions/46140485/tesseract-installation-in-windows
+    + 
