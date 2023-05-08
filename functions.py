@@ -404,7 +404,7 @@ def get_skill_level(skill='attack'):
         except:
             print(f"Error finding maximum %s level tens place." % (skill))
 
-    # Save images 
+    # Save images for later debugging of higher levels
     # cv2.imwrite("cur ones.png", img_current_level_ones)
     # cv2.imwrite("cur tens.png", img_current_level_tens)
     # cv2.imwrite("max ones.png", img_maximum_level_ones)
