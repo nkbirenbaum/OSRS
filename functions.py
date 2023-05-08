@@ -17,6 +17,23 @@ pag.MINIMUM_DURATION = 0 # Default: 0.1, any duration less than this is rounded 
 pag.MINIMUM_SLEEP = 0    # Default: 0.05, minimal number of seconds to sleep between mouse moves
 pag.PAUSE = 0            # Default: 0.1, the number of seconds to pause after EVERY public function call
 
+# Prints current mouse coordinates
+def get_mouse_coordinates():
+
+    # Get RuneLite window position
+    load_dotenv()
+    runelite_window_x = int(os.environ.get('RUNELITE_WINDOW_X'))
+    runelite_window_y = int(os.environ.get('RUNELITE_WINDOW_y'))
+
+    # Get & print current & relative mouse positions
+    (x, y) = pag.position()
+    relative_x = x - runelite_window_x
+    relative_y = y - runelite_window_y
+    print(f"Mouse position (absolute): (%i, %i)" % (x, y))
+    print(f"Mouse position (RuneLite): (%i, %i)" % (relative_x, relative_y))
+
+    return 1
+
 def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True, relative=False):
     
     # Adjust endpoints if mouse movement is relative
