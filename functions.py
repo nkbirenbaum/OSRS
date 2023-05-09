@@ -281,55 +281,55 @@ def update_runelite_window_position():
 # Capture specified area of the screen
 def capture_screen(area='all'):
     
+    # Load window position from .env
+    load_dotenv()
+    x = int(os.environ.get('RUNELITE_WINDOW_X'))
+    y = int(os.environ.get('RUNELITE_WINDOW_Y'))
+
+    # Determine area to screenshot
+    area = area.lower()
     match area:
         case 'all':
-            im = pag.screenshot()
+            img = pag.screenshot()
+            return img
         case 'runelite':
-            load_dotenv()
-            x = int(os.environ.get('RUNELITE_WINDOW_X'))
-            y = int(os.environ.get('RUNELITE_WINDOW_y'))
             w = 809
             h = 534
-            im = pag.screenshot(region=(x, y, w, h))
+        case 'runelite_extended':
+            w = 1100 # IN PROGRESS
+            h = 534
         case 'all_regions':
-            load_dotenv()
-            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 4
-            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 27
+            x += 4
+            y += 27
             w = 809 - 40 - 4
             h = 534 - 27 - 4
-            im = pag.screenshot(region=(x, y, w, h))
         case 'game':
-            load_dotenv()
-            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 8
-            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 31
+            x += 8
+            y += 31
             w = 512
             h = 334
-            im = pag.screenshot(region=(x, y, w, h))
         case 'chat':
-            load_dotenv()
-            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 4
-            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 365
+            x += 4
+            y += 365
             w = 520
             h = 165
-            im = pag.screenshot(region=(x, y, w, h))
         case 'minimap':
-            load_dotenv()
-            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 520
-            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 27
+            x += 520
+            y += 27
             w = 249
             h = 168
-            im = pag.screenshot(region=(x, y, w, h))
         case 'interface':
-            load_dotenv()
-            x = int(os.environ.get('RUNELITE_WINDOW_X')) + 526
-            y = int(os.environ.get('RUNELITE_WINDOW_y')) + 195
+            x += 526
+            y += 195
             w = 241
             h = 335
-            im = pag.screenshot(region=(x, y, w, h))
         case _:
-            print(f"Error in capture_screen(): %s is not a recognized area." % (area))
+            print(f"Error in capture_screen(): area '%s' is not recognized." % (area))
             return 0
-    return im
+    
+    # Screenshot area
+    img = pag.screenshot(region=(x, y, w, h))
+    return img
 
 
 # Returns specified skill level
