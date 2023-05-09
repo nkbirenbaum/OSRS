@@ -121,6 +121,39 @@ def press_key(key=''):
     time.sleep(d)
     pag.keyUp(key)
 
+# Presses given key combo with random duration
+def press_keys(key1='', key2=''):
+    
+    # Randomize duration
+    mu = 0.090
+    sigma = 0.020
+    d1 = 0
+    while d1 < 0.030:
+        d1 = random.gauss(mu, sigma)
+    d2 = 0
+    while d2 < 0.030:
+        d2 = random.gauss(mu, sigma)
+    d3 = 0
+    while d3 < 0.030:
+        d3 = random.gauss(mu, sigma)
+
+    # Press key with duration
+    pag.keyDown(key1)
+    time.sleep(d1)
+    pag.keyDown(key2)
+    time.sleep(d2)
+    pag.keyUp(key2)
+    time.sleep(d3)
+    pag.keyUp(key1)
+
+# Types input string
+def type_string(phrase=''):
+
+    for ii in phrase:
+        press_key(ii)
+
+    return 1
+
 
 # Clicks mouse button with random duration
 def click_mouse(button='left'):
@@ -145,14 +178,15 @@ def click_mouse(button='left'):
 
 
 # Delay for a random short period between actions
-def action_delay():
+def action_delay(mu=0.030, sigma=0.015):
 
-    mu = 0.030
-    sigma = 0.015
+    # Delay must be longer than 10 ms
     d = 0
     while d < 0.010:
         d = random.gauss(mu, sigma)
     time.sleep(d)
+
+    return 1
 
 
 # Countdown for a given number of seconds with sound cues
