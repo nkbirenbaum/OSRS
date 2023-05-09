@@ -34,13 +34,15 @@ def get_mouse_coordinates():
 
     return 1
 
-def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True, relative=False):
+def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, delay_after=0, acceleration=True, relative_to_rl=True):
     
-    # Adjust endpoints if mouse movement is relative
-    if relative:
-        x_start, y_start = pag.position()
-        x_end += x_start
-        y_end += y_start
+    # Adjust endpoints if mouse movement is relative to RuneLite window
+    load_dotenv()
+    if relative_to_rl:
+        runelite_window_x = int(os.environ.get('RUNELITE_WINDOW_X'))
+        runelite_window_y = int(os.environ.get('RUNELITE_WINDOW_y'))
+        x_end += runelite_window_x
+        y_end += runelite_window_y
 
     # Adjust tolerances if potentially out of bounds
     screen_width, screen_height = pag.size()
@@ -100,10 +102,15 @@ def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, acceleration=True, relative=F
         time.sleep(timeout)
 
     # Print new mouse coordinates
-    load_dotenv()
     flag_debug_mouse_position = int(os.environ.get('FLAG_DEBUG_MOUSE_POSITION'))
     if flag_debug_mouse_position:
         print(f"Mouse moved to (%i, %i)." % (x_end, y_end))
+
+    # Delay afterwards
+    if delay_after>0:
+        action_delay(mu=delay_after)
+
+    return 1
 
 
 # Presses given key with random duration
