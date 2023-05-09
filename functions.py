@@ -296,7 +296,11 @@ def capture_screen(area='all'):
             w = 809
             h = 534
         case 'runelite_extended':
-            w = 1100 # IN PROGRESS
+            w = 1051
+            h = 534
+        case 'runelite_sidebar':
+            x += 769
+            w = 1051 - 769
             h = 534
         case 'all_regions':
             x += 4
