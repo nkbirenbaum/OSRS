@@ -114,7 +114,7 @@ def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, delay_after=0, acceleration=T
 
 
 # Presses given key with random duration
-def press_key(key=''):
+def press_key(key='', delay_after=0):
     
     # Randomize duration
     mu = 0.090
@@ -128,8 +128,15 @@ def press_key(key=''):
     time.sleep(d)
     pag.keyUp(key)
 
+    # Delay afterwards
+    if delay_after>0:
+        action_delay(mu=delay_after)
+
+    return 1
+
+
 # Presses given key combo with random duration
-def press_keys(key1='', key2=''):
+def press_keys(key1='', key2='', delay_after=0):
     
     # Randomize duration
     mu = 0.090
@@ -153,17 +160,27 @@ def press_keys(key1='', key2=''):
     time.sleep(d3)
     pag.keyUp(key1)
 
+    # Delay afterwards
+    if delay_after>0:
+        action_delay(mu=delay_after)
+
+    return 1
+
 # Types input string
-def type_string(phrase=''):
+def type_string(phrase='', delay_after=0):
 
     for ii in phrase:
         press_key(ii)
+
+    # Delay afterwards
+    if delay_after>0:
+        action_delay(mu=delay_after)
 
     return 1
 
 
 # Clicks mouse button with random duration
-def click_mouse(button='left'):
+def click_mouse(button='left', delay_after=0):
 
     # Randomize duration
     mu = 0.050
@@ -182,6 +199,12 @@ def click_mouse(button='left'):
     flag_debug_mouse_click = int(os.environ.get('FLAG_DEBUG_MOUSE_CLICK'))
     if flag_debug_mouse_click:
         print(f"Mouse click (%s)." % (button))
+
+    # Delay afterwards
+    if delay_after>0:
+        action_delay(mu=delay_after)
+
+    return 1
 
 
 # Delay for a random short period between actions
@@ -304,8 +327,8 @@ def capture_screen(area='all'):
             h = 335
             im = pag.screenshot(region=(x, y, w, h))
         case _:
-            im = 0
-            print("Error in capture_screen().", area, " is not a recognized area.")
+            print(f"Error in capture_screen(): %s is not a recognized area." % (area))
+            return 0
     return im
 
 
@@ -387,7 +410,7 @@ def get_skill_level(skill='attack'):
             x1 = 153
             y1 = 231
         case _:
-            print("Error in get_skill_level().", skill, " is not a recognized skill.")
+            print(f"Error in get_skill_level(): unrecognized input '%s' for 'skill' argument." % (skill))
             return 0
     x2 = x1 + 60
     y2 = y1 + 30
@@ -424,7 +447,8 @@ def get_skill_level(skill='attack'):
         template_file = os.path.join(os.getcwd(), 'images', 'levels', '0123456789.png')
         template = cv2.imread(template_file, 0)
     except:
-        print(f"Error opening template file %s." % (template_file))
+        print(f"Error in get_skill_level(): could not open template file '%s'." % (template_file))
+        return 0
 
     # Get current level ones place values
     if current_level_two_digits:
@@ -437,7 +461,7 @@ def get_skill_level(skill='attack'):
         current_level_ones = top_left[0]/5
     except:
         current_level_ones = 0
-        print(f"Error finding current %s level ones place." % (skill))
+        print(f"Error in get_skill_level(): could not find current '%s' level ones place." % (skill))
 
     # Get maximum level ones place values
     if maximum_level_two_digits:
@@ -450,7 +474,7 @@ def get_skill_level(skill='attack'):
         maximum_level_ones = top_left[0]/5
     except:
         maximum_level_ones = 0
-        print(f"Error finding current %s level ones place." % (skill))
+        print(f"Error in get_skill_level(): could not find maximum '%s' level ones place." % (skill))
 
     # Get current level tens place values - TESTED 0-12 only
     current_level_tens = 0
@@ -467,7 +491,7 @@ def get_skill_level(skill='attack'):
             _, _, _, top_left = cv2.minMaxLoc(result)
             current_level_tens = top_left[0]/5
         except: 
-            print(f"Error finding current %s level tens place." % (skill))
+            print(f"Error in get_skill_level(): could not find current '%s' level tens place." % (skill))
     
     # Get maximum level tens place values - TESTED 0-12 only
     maximum_level_tens = 0
@@ -484,7 +508,7 @@ def get_skill_level(skill='attack'):
             _, _, _, top_left = cv2.minMaxLoc(result)
             maximum_level_tens = top_left[0]/5
         except:
-            print(f"Error finding maximum %s level tens place." % (skill))
+            print(f"Error in get_skill_level(): could not find maximum '%s' level tens place." % (skill))
 
     # Save images for later debugging of higher levels
     # cv2.imwrite("cur ones.png", img_current_level_ones)
