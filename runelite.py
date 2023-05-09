@@ -12,27 +12,18 @@ from functions import action_delay
 # Opens RuneLite configuration sidebar
 def open_rl_configuration():
 
-    # Window and button positions
-    load_dotenv()
-    runelite_window_x = int(os.environ.get('RUNELITE_WINDOW_X'))
-    runelite_window_y = int(os.environ.get('RUNELITE_WINDOW_y'))
+    # Check whether configuration is already open
+    # TO DO
 
     # Click small configuration button
-    x_end = runelite_window_x + 785
-    y_end = runelite_window_y + 40
-    move_mouse(x_end, y_end, x_tol=10, y_tol=10)
-    action_delay(0.500, 0.200)
-    click_mouse()
-    action_delay(0.500, 0.200)
+    move_mouse(x_end=785, y_end=40, x_tol=10, y_tol=10, delay_after=0.5)
+    click_mouse(delay_after=0.5)
 
     # Click large configuration button
-    x_end = runelite_window_x + 810
-    y_end = runelite_window_y + 50
-    move_mouse(x_end, y_end, x_tol=10, y_tol=10)
-    action_delay(0.500, 0.200)
-    click_mouse()
-    action_delay(0.500, 0.200)
+    move_mouse(x_end=810, y_end=50, x_tol=10, y_tol=10, delay_after=0.5)
+    click_mouse(delay_after=0.5)
 
+    print("RuneLite configuration opened.")
     return 1
 
 
