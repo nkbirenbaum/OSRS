@@ -20,9 +20,7 @@ def open_rl_configuration():
     # Click small configuration button
     x_end = runelite_window_x + 785
     y_end = runelite_window_y + 40
-    x_tol = 10
-    y_tol = 10
-    move_mouse(x_end, y_end, x_tol, y_tol)
+    move_mouse(x_end, y_end, x_tol=10, y_tol=10)
     action_delay(0.500, 0.200)
     click_mouse()
     action_delay(0.500, 0.200)
@@ -30,7 +28,7 @@ def open_rl_configuration():
     # Click large configuration button
     x_end = runelite_window_x + 810
     y_end = runelite_window_y + 50
-    move_mouse(x_end, y_end, x_tol, y_tol)
+    move_mouse(x_end, y_end, x_tol=10, y_tol=10)
     action_delay(0.500, 0.200)
     click_mouse()
     action_delay(0.500, 0.200)
