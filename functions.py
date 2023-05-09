@@ -178,27 +178,32 @@ def click_mouse(button='left'):
 
 
 # Delay for a random short period between actions
-def action_delay(mu=0, sigma=0, exact=False):
+def action_delay(mu=0.5, sigma=0, exact=False):
+
+    # If 'exact', perform delay and return immediately
+    if exact:
+        time.sleep(mu)
+        return 1
+    
+    # Sigma must be less than mu
+    if sigma>mu:
+        print(f"Error in action_delay(): input 'sigma' argument (%.3f) must be less than input 'mu' argument (%.3f)." % (sigma, mu))
+        return 0        
 
     # Compare to minimum delay
     minimum_delay = 0.010
     if mu<minimum_delay:
-        print(f"Error in action_delay(): input %'mu' argument must be at least %" % minimum_delay)
+        print(f"Error in action_delay(): input 'mu' argument must be at least %.3f" % minimum_delay)
         return 0
     
     # Calculate sigma if not given & not exact
     if not(exact) and sigma==0:
         sigma = mu/3
 
-    # Find delay time 'd'
-    if exact:
-        d = mu
-    else:
-        d = 0
-        while d < minimum_delay:
-            d = random.gauss(mu, sigma)
-
-    # Perform delay
+    # Find delay time 'd' and perform delay
+    d = 0
+    while d < minimum_delay:
+        d = random.gauss(mu, sigma)
     time.sleep(d)
 
     return 1
