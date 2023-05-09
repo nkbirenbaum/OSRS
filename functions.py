@@ -178,12 +178,27 @@ def click_mouse(button='left'):
 
 
 # Delay for a random short period between actions
-def action_delay(mu=0.030, sigma=0.015):
+def action_delay(mu=0, sigma=0, exact=False):
 
-    # Delay must be longer than 10 ms
-    d = 0
-    while d < 0.010:
-        d = random.gauss(mu, sigma)
+    # Compare to minimum delay
+    minimum_delay = 0.010
+    if mu<minimum_delay:
+        print(f"Error in action_delay(): input %'mu' argument must be at least %" % minimum_delay)
+        return 0
+    
+    # Calculate sigma if not given & not exact
+    if not(exact) and sigma==0:
+        sigma = mu/3
+
+    # Find delay time 'd'
+    if exact:
+        d = mu
+    else:
+        d = 0
+        while d < minimum_delay:
+            d = random.gauss(mu, sigma)
+
+    # Perform delay
     time.sleep(d)
 
     return 1
@@ -202,6 +217,8 @@ def countdown(iterations=3):
         winsound.Beep(frequency, duration)
         time.sleep(0.8)
     winsound.Beep(frequency2, duration2)
+
+    return 1
 
 
 # Updates the X and Y coordinates of the RuneLite window
@@ -222,6 +239,8 @@ def update_runelite_window_position():
     set_key(dotenv_path, 'RUNELITE_WINDOW_X', str(x))
     set_key(dotenv_path, 'RUNELITE_WINDOW_Y', str(y))
     print(f"RuneLite window postion updated to (%i, %i) in .env." % (x, y))
+
+    return 1
 
 
 # Capture specified area of the screen

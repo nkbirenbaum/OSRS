@@ -84,7 +84,7 @@ def highlight_npc(npc_name='', append_or_replace='replace'):
     # Return if append_or_replace is not 'append' or 'replace'
     append_or_replace = append_or_replace.lower()
     if append_or_replace=='append' or append_or_replace=='replace':
-        print(f"Error in highlight_npc(): unrecognized input '%s' for append_or_replace argument." % (append_or_replace))
+        print(f"Error in highlight_npc(): unrecognized input '%s' for 'append_or_replace' argument." % (append_or_replace))
         return 0
 
     # Open RuneLite configuration sidebar & NPC Indicators settings
