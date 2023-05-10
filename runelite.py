@@ -44,7 +44,7 @@ def open_rl_configuration():
         move_mouse(x_end=810, y_end=50, x_tol=10, y_tol=10, delay_after=0.5)
         click_mouse(delay_after=0.5)
 
-    print("RuneLite configuration->configuration opened.")
+    print("RuneLite plugins configuration opened.")
     return 1
 
 
@@ -56,17 +56,21 @@ def open_rl_plugin_settings(plugin_name=''):
         print(f"Error in open_rl_plugin_settings(): 'plugin_name' argument cannot be empty.")
         return 0
 
-    # Select search bar
+    # Open RuneLite configuration & select search bar
+    open_rl_configuration()
     move_mouse(x_end=870, y_end=98, x_tol=50, y_tol=5, delay_after=0.5)
     click_mouse(delay_after=0.5)
 
-    # Type plugin name
+    # Clear search bar & type plugin name
+    press_keys(key1='ctrlleft', key2='a', delay_after=0.5)
+    press_key(key='delete', delay_after=0.5)
     type_string(phrase=plugin_name, delay_after=0.5)
 
     # Click plugins settings
-    move_mouse(x_end=932, y_end=137, x_tol=5, y_tol=5, delay_after=0.5)
+    move_mouse(x_end=963, y_end=138, x_tol=4, y_tol=4, delay_after=0.5)
     click_mouse(delay_after=0.5)
 
+    print(f"'%s' plugin configuration opened." % (plugin_name))
     return 1
 
 
@@ -86,8 +90,18 @@ def highlight_npc(npc_name='', append_or_replace='replace'):
         return 0
 
     # Open RuneLite configuration sidebar & NPC Indicators settings
-    open_rl_configuration()
     open_rl_plugin_settings('npc indicators')
+
+    # Enable plugin if disabled
+    # img_npc_indicators_enabled = os.path.join(os.getcwd(), 'images', 'runelite', 'plugin enabled.png')
+    # npc_indicators_enabled = pag.locateOnScreen(img_npc_indicators_enabled, region=(960, 120, 60, 35), confidence=0.9)
+    # print("---")
+    # print(npc_indicators_enabled)
+    # print(bool(npc_indicators_enabled))
+    # print("---")
+    # if not(npc_indicators_enabled):
+    #     move_mouse(x_end=988, y_end=137, x_tol=5, y_tol=2, delay_after=0.5)
+    #     click_mouse(delay_after=0.5)
 
     # Enter NPCs to highlight text box
     move_mouse(x_end=880, y_end=475, x_tol=5, y_tol=5, delay_after=0.5)
