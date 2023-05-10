@@ -44,6 +44,13 @@ def open_rl_configuration():
         move_mouse(x_end=810, y_end=50, x_tol=10, y_tol=10, delay_after=0.5)
         click_mouse(delay_after=0.5)
 
+    # Press back button if plugin configuration is already open
+    img_config_back_button = os.path.join(os.getcwd(), 'images', 'runelite', 'config back button.png')
+    plugin_config_opened = bool(pag.locateOnScreen(img_config_back_button, region=(x+770, y+70, 30, 30), confidence=0.9))
+    if plugin_config_opened:
+        move_mouse(x_end=786, y_end=89, x_tol=2, y_tol=3, delay_after=0.5)
+        click_mouse(delay_after=0.5)
+
     print("RuneLite plugins configuration opened.")
     return 1
 
