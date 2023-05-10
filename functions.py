@@ -181,6 +181,12 @@ def type_string(phrase='', delay_after=0):
 # Clicks mouse button with random duration
 def click_mouse(button='left', delay_after=0):
 
+    # Error if button is invalid
+    button = button.lower()
+    if button not in ('left', 'right', 'middle')
+        print(f"Error in click_mouse(): unrecognized button '%s'" % (button))
+        return 0
+
     # Randomize duration
     mu = 0.050
     sigma = 0.015
@@ -197,7 +203,7 @@ def click_mouse(button='left', delay_after=0):
     load_dotenv()
     flag_debug_mouse_click = int(os.environ.get('FLAG_DEBUG_MOUSE_CLICK'))
     if flag_debug_mouse_click:
-        print(f"Mouse click (%s)." % (button))
+        print(f"Mouse %s-click." % (button))
 
     # Delay afterwards
     if delay_after>0:
