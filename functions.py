@@ -183,7 +183,7 @@ def click_mouse(button='left', delay_after=0):
 
     # Error if button is invalid
     button = button.lower()
-    if button not in ('left', 'right', 'middle')
+    if button not in ('left', 'right', 'middle'):
         print(f"Error in click_mouse(): unrecognized button '%s'" % (button))
         return 0
 
