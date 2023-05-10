@@ -300,13 +300,13 @@ def capture_screen(area='all'):
             h = 534
         case 'runelite_sidebar':
             x += 769
-            w = 1051 - 769
+            w = 282
             h = 534
         case 'all_regions':
             x += 4
             y += 27
-            w = 809 - 40 - 4
-            h = 534 - 27 - 4
+            w = 765
+            h = 503
         case 'game':
             x += 8
             y += 31
