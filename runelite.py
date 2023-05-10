@@ -1,29 +1,50 @@
 import os
 import pyperclip as pc
+import pyautogui as pag
 from dotenv import load_dotenv
 from functions import move_mouse
 from functions import click_mouse
 from functions import press_keys
 from functions import press_key
 from functions import type_string
-from functions import action_delay
 
 
 # Opens RuneLite configuration sidebar
 def open_rl_configuration():
 
-    # Check whether configuration is already open
-    # TO DO
+    # Load window position from .env & define sidebar position
+    load_dotenv()
+    x = int(os.environ.get('RUNELITE_WINDOW_X'))
+    y = int(os.environ.get('RUNELITE_WINDOW_Y'))
+    w = 282
+    h = 534
 
-    # Click small configuration button
-    move_mouse(x_end=785, y_end=40, x_tol=10, y_tol=10, delay_after=0.5)
-    click_mouse(delay_after=0.5)
+    # Check whether sidebar is already expanded
+    img_sidebar_dash_x = os.path.join(os.getcwd(), 'images', 'runelite', 'sidebar dash x.png')
+    sidebar_expanded = bool(pag.locateOnScreen(img_sidebar_dash_x, region=(x+809, y, w, h), confidence=0.9))
 
-    # Click large configuration button
-    move_mouse(x_end=810, y_end=50, x_tol=10, y_tol=10, delay_after=0.5)
-    click_mouse(delay_after=0.5)
+    # Check whether small configuration settings button is activated
+    img_config_small_open = os.path.join(os.getcwd(), 'images', 'runelite', 'config small open.png')
+    config_small_opened = bool(pag.locateOnScreen(img_config_small_open, region=(x+769, y, w, h), confidence=0.9))
+    
+    # Open sidebar & activate small configuration settings button
+    if not(sidebar_expanded) and not(config_small_opened):
+        move_mouse(x_end=785, y_end=40, x_tol=9, y_tol=9, delay_after=0.5)
+        click_mouse(delay_after=0.5)
+    elif sidebar_expanded and not(config_small_opened):
+        move_mouse(x_end=1028, y_end=40, x_tol=9, y_tol=9, delay_after=0.5)
+        click_mouse(delay_after=0.5)
 
-    print("RuneLite configuration opened.")
+    # Check whether large configuration settings button is activated
+    img_config_large_open = os.path.join(os.getcwd(), 'images', 'runelite', 'config large open.png')
+    config_large_opened = bool(pag.locateOnScreen(img_config_large_open, region=(x+769, y, w, h), confidence=0.9))
+
+    # Activate large configuration button
+    if not(config_large_opened):
+        move_mouse(x_end=810, y_end=50, x_tol=10, y_tol=10, delay_after=0.5)
+        click_mouse(delay_after=0.5)
+
+    print("RuneLite configuration->configuration opened.")
     return 1
 
 
