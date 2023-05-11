@@ -26,11 +26,11 @@ def focus_rl_window():
         h = rl_unfocused[3]
         move_mouse(x_end=int(x+w/2), y_end=int(y+h/2), x_tol=int(w/3), y_tol=int(h/3), delay_after=0.5, relative_to_rl=False)
         click_mouse(delay_after=0.5)
+        print("RuneLite window focused.")
     else:
         print("Error in focus_rl_window(): RuneLite app not found in taskbar.")
         return 0
     
-    print("RuneLite window focused.")
     return 1
 
 
