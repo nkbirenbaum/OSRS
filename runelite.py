@@ -111,8 +111,6 @@ def open_rl_plugin_settings(plugin_name=''):
     # Enable plugin if disabled
     img_plugin_enabled = os.path.join(os.getcwd(), 'images', 'runelite', 'plugin enabled.png')
     plugin_enabled = pag.locateOnScreen(img_plugin_enabled, region=(rl_win_x+960, rl_win_y+70, 60, 40))
-    print("PLUGIN ENABLED:")
-    print(plugin_enabled)
     if not(plugin_enabled):
         move_mouse(x_end=990, y_end=90, x_tol=4, y_tol=2, delay_after=0.3)
         click_mouse(delay_after=0.5)
@@ -121,7 +119,7 @@ def open_rl_plugin_settings(plugin_name=''):
 
 
 # Highlight NPC
-def highlight_npc(npc_name='', append_or_replace='replace'):
+def highlight_npc(npc_name='', replace_or_append='replace'):
 
     # Return if npc_name is empty
     if npc_name=='':
@@ -129,10 +127,10 @@ def highlight_npc(npc_name='', append_or_replace='replace'):
         return 0
     npc_name = npc_name.lower()
 
-    # Return if append_or_replace is not 'append' or 'replace'
-    append_or_replace = append_or_replace.lower()
-    if append_or_replace=='append' or append_or_replace=='replace':
-        print(f"Error in highlight_npc(): unrecognized input '%s' for 'append_or_replace' argument." % (append_or_replace))
+    # Return if replace_or_append is not 'append' or 'replace'
+    replace_or_append = replace_or_append.lower()
+    if replace_or_append!='append' and replace_or_append!='replace':
+        print(f"Error in highlight_npc(): unrecognized input '%s' for 'replace_or_append' argument." % (replace_or_append))
         return 0
 
     # Open RuneLite configuration sidebar & NPC Indicators settings
@@ -143,14 +141,14 @@ def highlight_npc(npc_name='', append_or_replace='replace'):
     click_mouse(delay_after=0.5)
 
     # Replace with new NPC name
-    if append_or_replace=='replace':
+    if replace_or_append=='replace':
         press_keys('ctrlleft', 'a', delay_after=0.5)
         press_key('delete', delay_after=0.5)
         type_string(phrase=npc_name, delay_after=0.5)
-        print(f"NPC Indicators replaced by '%s'" % (npc_name))
+        print(f"'NPCs to Highlight' replaced by '%s'." % (npc_name))
 
     # Append new NPC name
-    elif append_or_replace=='append':
+    elif replace_or_append=='append':
         press_keys('ctrlleft', 'a', delay_after=0.5)
         press_keys('ctrlleft', 'c', delay_after=0.5)
         clipboard = pc.paste()
@@ -160,13 +158,14 @@ def highlight_npc(npc_name='', append_or_replace='replace'):
             if npc==npc_name:
                 npc_exists = True
         if npc_exists:
-            print(f"'%s' already exists in NPC Indicators" % (npc_name))
+            print(f"'%s' already exists in 'NPCs to Highlight'." % (npc_name))
         else:
             press_keys('ctrlleft', 'end', delay_after=0.5)
             new_string = ""
             if clipboard[-1]!=',':
                 new_string += ','
             new_string += npc_name
-            print(f"'%s' added to NPC Indicators" % (npc_name))
+            type_string(phrase=new_string, delay_after=0.5)
+            print(f"'%s' added to 'NPCs to Highlight'." % (npc_name))
 
     return 1
