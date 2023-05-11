@@ -9,6 +9,31 @@ from functions import press_key
 from functions import type_string
 
 
+# Brings RuneLite window into focus if unfocused
+def focus_rl_window():
+
+    # Check whether RuneLite window is unfocused and focused
+    img_rl_unfocused = os.path.join(os.getcwd(), 'images', 'runelite', 'rl unfocused.png')
+    rl_unfocused = pag.locateOnScreen(img_rl_unfocused, region=(0, 1030, 1920, 50), confidence=0.9)
+    img_rl_focused = os.path.join(os.getcwd(), 'images', 'runelite', 'rl focused.png')
+    rl_focused = pag.locateOnScreen(img_rl_focused, region=(0, 1030, 1920, 50), confidence=0.9)
+
+    # Maximize if minimized
+    if not(bool(rl_focused)) and bool(rl_unfocused):
+        x = rl_unfocused[0]
+        y = rl_unfocused[1]
+        w = rl_unfocused[2]
+        h = rl_unfocused[3]
+        move_mouse(x_end=int(x+w/2), y_end=int(y+h/2), x_tol=int(w/3), y_tol=int(h/3), delay_after=0.5, relative_to_rl=False)
+        click_mouse(delay_after=0.5)
+    else:
+        print("Error in focus_rl_window(): RuneLite app not found in taskbar.")
+        return 0
+    
+    print("RuneLite window focused.")
+    return 1
+
+
 # Opens RuneLite configuration sidebar
 def open_rl_configuration():
 

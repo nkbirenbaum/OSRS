@@ -213,7 +213,7 @@ def click_mouse(button='left', delay_after=0):
 
 
 # Delay for a random short period between actions
-def action_delay(mu=0.5, sigma=0, exact=False):
+def action_delay(mu=0.5, sigma=0.0, exact=False):
 
     # If 'exact', perform delay and return immediately
     if exact:
@@ -530,3 +530,6 @@ def get_skill_level(skill='attack'):
     maximum_level = maximum_level_ones + 10*maximum_level_tens    
 
     return (current_level, maximum_level)
+
+
+    
