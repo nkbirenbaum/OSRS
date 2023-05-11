@@ -88,6 +88,11 @@ def open_rl_plugin_settings(plugin_name=''):
         print(f"Error in open_rl_plugin_settings(): 'plugin_name' argument cannot be empty.")
         return 0
 
+    # Load window position from .env
+    load_dotenv()
+    rl_win_x = int(os.environ.get('RUNELITE_WINDOW_X'))
+    rl_win_y = int(os.environ.get('RUNELITE_WINDOW_Y'))
+
     # Open RuneLite configuration & select search bar
     open_rl_configuration()
     move_mouse(x_end=870, y_end=98, x_tol=50, y_tol=5, delay_after=0.5)
@@ -101,8 +106,17 @@ def open_rl_plugin_settings(plugin_name=''):
     # Click plugins settings
     move_mouse(x_end=963, y_end=138, x_tol=4, y_tol=4, delay_after=0.5)
     click_mouse(delay_after=0.5)
-
     print(f"'%s' plugin configuration opened." % (plugin_name))
+
+    # Enable plugin if disabled
+    img_plugin_enabled = os.path.join(os.getcwd(), 'images', 'runelite', 'plugin enabled.png')
+    plugin_enabled = pag.locateOnScreen(img_plugin_enabled, region=(rl_win_x+960, rl_win_y+70, 60, 40))
+    print("PLUGIN ENABLED:")
+    print(plugin_enabled)
+    if not(plugin_enabled):
+        move_mouse(x_end=990, y_end=90, x_tol=4, y_tol=2, delay_after=0.3)
+        click_mouse(delay_after=0.5)
+        print(f"'%s' plugin enabled." % (plugin_name))
     return 1
 
 
@@ -123,17 +137,6 @@ def highlight_npc(npc_name='', append_or_replace='replace'):
 
     # Open RuneLite configuration sidebar & NPC Indicators settings
     open_rl_plugin_settings('npc indicators')
-
-    # Enable plugin if disabled
-    # img_npc_indicators_enabled = os.path.join(os.getcwd(), 'images', 'runelite', 'plugin enabled.png')
-    # npc_indicators_enabled = pag.locateOnScreen(img_npc_indicators_enabled, region=(960, 120, 60, 35), confidence=0.9)
-    # print("---")
-    # print(npc_indicators_enabled)
-    # print(bool(npc_indicators_enabled))
-    # print("---")
-    # if not(npc_indicators_enabled):
-    #     move_mouse(x_end=988, y_end=137, x_tol=5, y_tol=2, delay_after=0.5)
-    #     click_mouse(delay_after=0.5)
 
     # Enter NPCs to highlight text box
     move_mouse(x_end=880, y_end=475, x_tol=5, y_tol=5, delay_after=0.5)
