@@ -9,6 +9,21 @@ from functions import press_key
 from functions import type_string
 
 
+# Get position of RuneLite on taskbar
+def get_rl_taskbar_position(focused=True):
+
+    # Get position of unfocused and focused RuneLite app from taskbar
+    img_rl_unfocused = os.path.join(os.getcwd(), 'images', 'runelite', 'rl unfocused.png')
+    rl_unfocused = pag.locateOnScreen(img_rl_unfocused, region=(0, 1030, 1920, 50), confidence=0.9)
+    img_rl_focused = os.path.join(os.getcwd(), 'images', 'runelite', 'rl focused.png')
+    rl_focused = pag.locateOnScreen(img_rl_focused, region=(0, 1030, 1920, 50), confidence=0.9)
+
+    # Return specified focused or unfocused position
+    if focused:
+        return rl_focused
+    else:
+        return rl_unfocused
+
 # Brings RuneLite window into focus if unfocused
 def focus_rl_window():
 
