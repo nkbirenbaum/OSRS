@@ -28,10 +28,8 @@ def get_rl_taskbar_position(focused=True):
 def focus_rl_window():
 
     # Check whether RuneLite window is unfocused and focused
-    img_rl_unfocused = os.path.join(os.getcwd(), 'images', 'runelite', 'rl unfocused.png')
-    rl_unfocused = pag.locateOnScreen(img_rl_unfocused, region=(0, 1030, 1920, 50), confidence=0.9)
-    img_rl_focused = os.path.join(os.getcwd(), 'images', 'runelite', 'rl focused.png')
-    rl_focused = pag.locateOnScreen(img_rl_focused, region=(0, 1030, 1920, 50), confidence=0.9)
+    rl_unfocused = get_rl_taskbar_position(focused=False)
+    rl_focused = get_rl_taskbar_position(focused=True)
 
     # Maximize if minimized
     if not(bool(rl_focused)) and bool(rl_unfocused):
