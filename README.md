@@ -15,4 +15,5 @@ Readme goes here.
     + git rm --cached FILE_NAME 
 + Install pytesseract:
     + https://stackoverflow.com/questions/46140485/tesseract-installation-in-windows
-    + 
++ Open subprocess
+    + subprocess.run(EXE_PATH, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, creationflags=subprocess.CREATE_NO_WINDOW)

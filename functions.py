@@ -8,7 +8,6 @@ import winsound
 import os
 import cv2
 import pytesseract
-from dotenv import set_key
 from dotenv import load_dotenv
 
 pytesseract.pytesseract.tesseract_cmd = r"C:/Program Files/Tesseract-OCR/tesseract.exe" # Path to tesseract.exe
@@ -257,28 +256,6 @@ def countdown(iterations=3):
         winsound.Beep(frequency, duration)
         time.sleep(0.8)
     winsound.Beep(frequency2, duration2)
-
-    return 1
-
-
-# Updates the X and Y coordinates of the RuneLite window
-def update_runelite_window_position():
-
-    # Locate position of RuneLite window logo
-    try:
-        runelite_icon_file = os.getcwd() + "\images\icons\\runelite.png"
-        location = pag.locateOnScreen(runelite_icon_file)
-        x = location[0]
-        y = location[1]
-    except:
-        print("Error: Could not locate RuneLite window in update_runelite_window_position()")
-        return 0
-
-    # Sets environment variables
-    dotenv_path = os.getcwd() + "\.env"
-    set_key(dotenv_path, 'RUNELITE_WINDOW_X', str(x))
-    set_key(dotenv_path, 'RUNELITE_WINDOW_Y', str(y))
-    print(f"RuneLite window postion updated to (%i, %i) in .env." % (x, y))
 
     return 1
 

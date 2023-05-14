@@ -1,6 +1,8 @@
 import os
+import time
 import pyperclip as pc
 import pyautogui as pag
+from dotenv import set_key
 from dotenv import load_dotenv
 from functions import move_mouse
 from functions import click_mouse
@@ -24,6 +26,36 @@ def get_rl_taskbar_position(focused=True):
     else:
         return rl_unfocused
 
+
+# Opens RuneLite if not already opened
+def open_rl():
+
+    # Check whether RuneLite window is unfocused and focused
+    rl_unfocused = get_rl_taskbar_position(focused=False)
+    rl_focused = get_rl_taskbar_position(focused=True)
+
+    # Open RuneLite if not already open
+    if not(rl_unfocused) and not(rl_focused):
+        move_mouse(x_end=227, y_end=1060, x_tol=139, y_tol=12, relative_to_rl=False, delay_after=0.2)
+        click_mouse(delay_after=0.3)
+        type_string(phrase='runelite', delay_after=0.7)
+        move_mouse(x_end=622, y_end=608, x_tol=72, y_tol=66, relative_to_rl=False, delay_after=0.2)
+        click_mouse(delay_after=0.3)
+        print("RuneLite opened.")
+    else:
+        print("RuneLite already opened.")
+        return 0
+
+    # Wait for RuneLite to open
+    rl_is_open = False
+    runelite_icon_file = os.path.join(os.getcwd(), 'images', 'runelite', 'rl window.png')
+    while not(rl_is_open):
+        rl_is_open = pag.locateOnScreen(runelite_icon_file)
+        time.sleep(0.5)
+    print("RuneLite initialized.")
+    return 1
+
+
 # Brings RuneLite window into focus if unfocused
 def focus_rl_window():
 
@@ -40,10 +72,31 @@ def focus_rl_window():
         move_mouse(x_end=int(x+w/2), y_end=int(y+h/2), x_tol=int(w/3), y_tol=int(h/3), delay_after=0.5, relative_to_rl=False)
         click_mouse(delay_after=0.5)
         print("RuneLite window focused.")
+        return 1
     else:
         print("Error in focus_rl_window(): RuneLite app not found in taskbar.")
         return 0
-    
+
+
+# Updates the X and Y coordinates of the RuneLite window
+def update_rl_window_position():
+
+    # Locate position of RuneLite window logo
+    try:
+        runelite_icon_file = os.path.join(os.getcwd(), 'images', 'runelite', 'rl window.png')
+        location = pag.locateOnScreen(runelite_icon_file)
+        x = location[0]
+        y = location[1]
+    except:
+        print("Error in update_runelite_window_position(): Could not locate RuneLite window.")
+        return 0
+
+    # Sets environment variables
+    dotenv_path = os.getcwd() + "\.env"
+    set_key(dotenv_path, 'RUNELITE_WINDOW_X', str(x))
+    set_key(dotenv_path, 'RUNELITE_WINDOW_Y', str(y))
+    print(f"RuneLite window postion updated to (%i, %i) in .env." % (x, y))
+
     return 1
 
 
@@ -182,3 +235,5 @@ def highlight_npc(npc_name='', replace_or_append='replace'):
             print(f"'%s' added to 'NPCs to Highlight'." % (npc_name))
 
     return 1
+
+
