@@ -2,13 +2,14 @@ import pyautogui as pag
 import random
 import numpy as np
 import time
-from scipy import interpolate
 import math
 import winsound
 import os
 import cv2
 import pytesseract
+import platform
 from dotenv import load_dotenv
+from scipy import interpolate
 
 pytesseract.pytesseract.tesseract_cmd = r"C:/Program Files/Tesseract-OCR/tesseract.exe" # Path to tesseract.exe
 
@@ -31,6 +32,7 @@ def get_mouse_coordinates(relative=True):
         y -= runelite_window_y
 
     return (x, y)
+
 
 def move_mouse(x_end=0, y_end=0, x_tol=0, y_tol=0, delay_after=0, acceleration=True, relative_to_rl=True):
     
@@ -509,4 +511,19 @@ def get_skill_level(skill='attack'):
     return (current_level, maximum_level)
 
 
-    
+# Warn if not running specified operating system release
+def check_os_version(os='Windows', release='10'):
+
+    # Get current operating system & version
+    current_os = platform.system()
+    current_release = platform.release()
+    print(current_os)
+    print(current_release)
+
+    # Compare to input operating system & version and warn if different
+    if (os != current_os) or (release != current_release):
+        print(f"Warning: This script was designed for %s %s. Current operating system is %s %s. Some functions may not work properly." % (os, release, current_os, current_os, current_release))
+    return 1
+
+
+# Next function
