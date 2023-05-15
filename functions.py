@@ -464,7 +464,7 @@ def get_skill_level(skill='attack'):
         maximum_level_ones = 0
         print(f"Error in get_skill_level(): could not find maximum '%s' level ones place." % (skill))
 
-    # Get current level tens place values - TESTED 0-12 only
+    # Get current level tens place values - TESTED 0-13 only
     current_level_tens = 0
     if current_level_two_digits:
         x1_c_10s = 34
@@ -540,3 +540,35 @@ def standardize_view():
     pag.keyUp('up')
 
     return 1
+
+
+# Find cyan outline of images 
+def mask_screen(area='all', color=(255, 255, 255)):
+
+    # img_file = os.path.join(os.getcwd(), 'images', 'cyan.png')
+    # img = cv2.imread(img_file)
+    # img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    # print(img)
+    # print(img_rgb)
+
+    # Screenshot game and mask cyan NPC outline
+    img_game = capture_screen(area='game')
+    open_cv_image = np.array(img_game)
+    open_cv_image = open_cv_image[:, :, ::-1].copy() 
+    cv2.imshow("open_cv_image", open_cv_image)
+    cv2.waitKey(0)
+
+    img_hsv = cv2.cvtColor(np.array(img_game), cv2.COLOR_RGB2HSV)
+    cv2.imshow("img_hsv", img_hsv)
+    cv2.waitKey(0)
+
+
+    lower = np.array([89, 250, 250])
+    upper = np.array([91, 255, 255])
+    img_mask = cv2.inRange(img_hsv, lower, upper)
+    cv2.imshow("img_mask", img_mask)
+    cv2.waitKey(0)
+    # print(img_mask)
+    result = cv2.bitwise_and(img_hsv, img_hsv, mask=img_mask)
+    cv2.imshow("result", result)
+    cv2.waitKey(0)

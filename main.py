@@ -16,3 +16,7 @@ focus_rl_window()
 update_rl_window_position()
 login_osrs()
 standardize_view()
+
+# Start combat training
+highlight_npc('cow')
+
