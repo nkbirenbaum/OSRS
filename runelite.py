@@ -240,3 +240,39 @@ def highlight_npc(npc_name='', replace_or_append='replace'):
     return 1
 
 
+# Log in to the game
+def login_osrs():
+
+    # Get password & window position
+    load_dotenv()
+    password = os.environ.get('PASSWORD')
+    x = int(os.environ.get('RUNELITE_WINDOW_X'))
+    y = int(os.environ.get('RUNELITE_WINDOW_Y'))
+    
+    # Check whether login screen is active
+    img_existing_user = os.path.join(os.getcwd(), 'images', 'login', 'existing user.png')
+    existing_user = pag.locateOnScreen(img_existing_user, region=(x+300, y+250, 400, 150), confidence=0.9)
+    if not(existing_user):
+        print("Error in login_osrs(): Failed to locate 'Existing user' button on screen.")
+        return 0
+    
+    # Type password, login, & move off of play button
+    move_mouse(x_end=466, y_end=318, x_tol=63, y_tol=13, delay_after=0.4)
+    click_mouse(delay_after=0.6)
+    type_string(password)
+    move_mouse(x_end=306, y_end=349, x_tol=61, y_tol=12, delay_after=0.4)
+    click_mouse(delay_after=0.5)
+    move_mouse(x_end=386, y_end=469, x_tol=370, y_tol=47, delay_after=0.6)
+
+    # Click here to play
+    welcome_screen = False
+    welcome_screen_file = os.path.join(os.getcwd(), 'images', 'login', 'click here to play.png')
+    while not(welcome_screen):
+        welcome_screen = pag.locateOnScreen(welcome_screen_file)
+        time.sleep(0.5)
+    move_mouse(x_end=386, y_end=364, x_tol=102, y_tol=34, delay_after=0.5)
+    click_mouse(delay_after=1.0)
+    return 1
+    
+
+# Next fn

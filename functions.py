@@ -517,8 +517,6 @@ def check_os_version(os='Windows', release='10'):
     # Get current operating system & version
     current_os = platform.system()
     current_release = platform.release()
-    print(current_os)
-    print(current_release)
 
     # Compare to input operating system & version and warn if different
     if (os != current_os) or (release != current_release):
