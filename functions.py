@@ -188,7 +188,7 @@ def click_mouse(button='left', delay_after=0):
         print(f"Error in click_mouse(): unrecognized button '%s'" % (button))
         return 0
 
-    # Randomize duration
+    # Randomize click duration
     mu = 0.050
     sigma = 0.015
     d = 0
