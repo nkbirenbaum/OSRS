@@ -525,3 +525,18 @@ def check_os_version(os='Windows', release='10'):
 
 
 # Next function
+def standardize_view():
+
+    # Look North
+    move_mouse(x_end=563, y_end=46, x_tol=10, y_tol=9, delay_after = 0.1)
+    click_mouse(delay_after=0.4)
+
+    # Reset zoom position (512)
+    press_key('ctrlleft', delay_after=0.7)
+
+    # Tilt until aerial view
+    pag.keyDown('up')
+    time.sleep(2.5 + abs(random.gauss(0.1, 0.4)))
+    pag.keyUp('up')
+
+    return 1

@@ -9,10 +9,10 @@ import pyautogui as pag
 from runelite import *
 from functions import *
 
-# Open RuneLite and update the window position
+# Open RuneLite, login, & setup
 check_os_version()
 open_rl()
 focus_rl_window()
 update_rl_window_position()
-
-# Login 
+login_osrs()
+standardize_view()
