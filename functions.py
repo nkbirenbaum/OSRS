@@ -545,7 +545,7 @@ def standardize_view():
     return 1
 
 
-# Find mask of images 
+# Create mask of given area of screen where color matches mask_rgb
 def mask_screen(area='all', mask_rgb=(255, 255, 255)):
 
     # Screenshot game and convert to openCV BGR format
@@ -560,35 +560,27 @@ def mask_screen(area='all', mask_rgb=(255, 255, 255)):
     lower = np.array([b, g, r])
     upper = np.array([b, g, r])
     img_mask = cv2.inRange(img_cv, lower, upper)
+    return img_mask
 
-    # NEXT
-    # result = cv2.bitwise_and(img_cv, img_cv, mask=img_mask)
-    # cv2.imshow("result", result)
-    # cv2.waitKey(0)
 
-    # ret, markers = cv2.connectedComponents(img_mask)
-    # print(ret)
-    # print(markers)
-    # cv2.imshow("img_mask", img_mask)
-    # cv2.waitKey(0)
+# Returns positions of highlighted npcs
+def find_highlighted_npcs():
 
-    ret, thresh = cv2.threshold(img_mask,20,255,cv2.THRESH_BINARY_INV)
+    # Threshold img_mask and label image
+    img_mask = mask_screen(area='game', mask_rgb=(0, 255, 255))
+    _, img_thresholded = cv2.threshold(src=img_mask, thresh=20, maxval=255, type=cv2.THRESH_BINARY_INV)
+    img_labeled = measure.label(img_thresholded, background=0)
+    print(img_labeled.sum()) # Should not change but it might TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+    background_label = img_labeled[0, 0] 
+    img_labeled[img_labeled==background_label] = 0
+    print(img_labeled.sum()) # Should not change but it might TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 
-    labels = measure.label(thresh, background=0)
-    bg_label = labels[0,0] 
-    labels[labels==bg_label] = 0 # Assign background label to 0
+    region_properties = measure.regionprops(label_image=img_labeled)
 
-    props = measure.regionprops(labels)
-
-    fig,ax = plt.subplots(1,1)
-    plt.axis('off')
-    ax.imshow(img_mask,cmap='gray')
-    centroids = np.zeros(shape=(len(np.unique(labels)),2)) # Access the coordinates of centroids
-    for i,prop in enumerate(props):
+    centroids = np.zeros(shape=(len(np.unique(img_labeled)),2)) # Access the coordinates of centroids
+    for ii, prop in enumerate(region_properties):
         my_centroid = prop.centroid
-        centroids[i,:]= my_centroid
-        ax.plot(my_centroid[1],my_centroid[0],'r.')
-
+        centroids[ii,:]= my_centroid
+        print(f"centroid %i:" % ii)
+        print(my_centroid)
     # print(centroids)
-    # fig.savefig('out.png', bbox_inches='tight', pad_inches=0)
-    plt.show()
