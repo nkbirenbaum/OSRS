@@ -10,6 +10,7 @@ import pytesseract
 import platform
 from dotenv import load_dotenv
 from scipy import interpolate
+from scipy import stats as st
 
 import matplotlib.pyplot as plt
 from skimage import measure
@@ -566,21 +567,19 @@ def mask_screen(area='all', mask_rgb=(255, 255, 255)):
 # Returns positions of highlighted npcs
 def find_highlighted_npcs():
 
-    # Threshold img_mask and label image
+    # Threshold img_mask, label image, and set label background to label mode
     img_mask = mask_screen(area='game', mask_rgb=(0, 255, 255))
     _, img_thresholded = cv2.threshold(src=img_mask, thresh=20, maxval=255, type=cv2.THRESH_BINARY_INV)
     img_labeled = measure.label(img_thresholded, background=0)
-    print(img_labeled.sum()) # Should not change but it might TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-    background_label = img_labeled[0, 0] 
+    background_label, _ = st.mode(a=img_labeled.flatten(), keepdims=False)
     img_labeled[img_labeled==background_label] = 0
-    print(img_labeled.sum()) # Should not change but it might TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
 
+    # Get centroid data (x & y reversed from regionprops)
     region_properties = measure.regionprops(label_image=img_labeled)
-
-    centroids = np.zeros(shape=(len(np.unique(img_labeled)),2)) # Access the coordinates of centroids
+    centroids = np.zeros(shape=(len(np.unique(img_labeled))-1, 2))
     for ii, prop in enumerate(region_properties):
-        my_centroid = prop.centroid
-        centroids[ii,:]= my_centroid
-        print(f"centroid %i:" % ii)
-        print(my_centroid)
-    # print(centroids)
+        x = prop.centroid[1]
+        y = prop.centroid[0]
+        centroids[ii, 0] = x
+        centroids[ii, 1] = y
+    return centroids
