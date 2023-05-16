@@ -11,6 +11,7 @@ import platform
 from dotenv import load_dotenv
 from scipy import interpolate
 from scipy import stats as st
+from scipy.spatial import distance
 
 import matplotlib.pyplot as plt
 from skimage import measure
@@ -582,4 +583,27 @@ def find_highlighted_npcs():
         y = prop.centroid[0]
         centroids[ii, 0] = x
         centroids[ii, 1] = y
-    return centroids
+    if not(centroids.any()):
+        print("Error in find_highlighted_npcs: No NPCs found.")
+        return 0
+    else:
+        return centroids
+
+
+# Attack a nearby NPC
+def attack_npc():
+
+    # Find highlighted NPCs
+    centroids = find_highlighted_npcs()
+    if not(centroids.any()):
+        print("Error in attack_npc: No NPCs found.")
+        return 0
+
+    # Order NPCS by distance from player
+    player_position = (266, 192)
+    n_rows, n_cols = centroids.shape
+    distances = np.zeros(shape=(n_rows, 1))
+    for ii, row in centroids:
+        dst = distance.euclidean(player_position, row)
+        distances[ii] = dst
+    print(distances)
