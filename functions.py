@@ -11,6 +11,9 @@ import platform
 from dotenv import load_dotenv
 from scipy import interpolate
 
+import matplotlib.pyplot as plt
+from skimage import measure
+
 pytesseract.pytesseract.tesseract_cmd = r"C:/Program Files/Tesseract-OCR/tesseract.exe" # Path to tesseract.exe
 
 pag.MINIMUM_DURATION = 0 # Default: 0.1, any duration less than this is rounded to 0.0 to instantly move the mouse
@@ -542,33 +545,50 @@ def standardize_view():
     return 1
 
 
-# Find cyan outline of images 
-def mask_screen(area='all', color=(255, 255, 255)):
+# Find mask of images 
+def mask_screen(area='all', mask_rgb=(255, 255, 255)):
 
-    # img_file = os.path.join(os.getcwd(), 'images', 'cyan.png')
-    # img = cv2.imread(img_file)
-    # img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    # print(img)
-    # print(img_rgb)
+    # Screenshot game and convert to openCV BGR format
+    img_raw = capture_screen(area=area)
+    img_cv = np.array(img_raw)
+    img_cv = img_cv[:, :, ::-1].copy() 
 
-    # Screenshot game and mask cyan NPC outline
-    img_game = capture_screen(area='game')
-    open_cv_image = np.array(img_game)
-    open_cv_image = open_cv_image[:, :, ::-1].copy() 
-    cv2.imshow("open_cv_image", open_cv_image)
-    cv2.waitKey(0)
+    # Extract mask colors & create mask
+    r = mask_rgb[0]
+    g = mask_rgb[1]
+    b = mask_rgb[2]
+    lower = np.array([b, g, r])
+    upper = np.array([b, g, r])
+    img_mask = cv2.inRange(img_cv, lower, upper)
 
-    img_hsv = cv2.cvtColor(np.array(img_game), cv2.COLOR_RGB2HSV)
-    cv2.imshow("img_hsv", img_hsv)
-    cv2.waitKey(0)
+    # NEXT
+    # result = cv2.bitwise_and(img_cv, img_cv, mask=img_mask)
+    # cv2.imshow("result", result)
+    # cv2.waitKey(0)
 
+    # ret, markers = cv2.connectedComponents(img_mask)
+    # print(ret)
+    # print(markers)
+    # cv2.imshow("img_mask", img_mask)
+    # cv2.waitKey(0)
 
-    lower = np.array([89, 250, 250])
-    upper = np.array([91, 255, 255])
-    img_mask = cv2.inRange(img_hsv, lower, upper)
-    cv2.imshow("img_mask", img_mask)
-    cv2.waitKey(0)
-    # print(img_mask)
-    result = cv2.bitwise_and(img_hsv, img_hsv, mask=img_mask)
-    cv2.imshow("result", result)
-    cv2.waitKey(0)
+    ret, thresh = cv2.threshold(img_mask,20,255,cv2.THRESH_BINARY_INV)
+
+    labels = measure.label(thresh, background=0)
+    bg_label = labels[0,0] 
+    labels[labels==bg_label] = 0 # Assign background label to 0
+
+    props = measure.regionprops(labels)
+
+    fig,ax = plt.subplots(1,1)
+    plt.axis('off')
+    ax.imshow(img_mask,cmap='gray')
+    centroids = np.zeros(shape=(len(np.unique(labels)),2)) # Access the coordinates of centroids
+    for i,prop in enumerate(props):
+        my_centroid = prop.centroid
+        centroids[i,:]= my_centroid
+        ax.plot(my_centroid[1],my_centroid[0],'r.')
+
+    # print(centroids)
+    # fig.savefig('out.png', bbox_inches='tight', pad_inches=0)
+    plt.show()
