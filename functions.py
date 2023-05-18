@@ -8,6 +8,7 @@ import os
 import cv2
 import pytesseract
 import platform
+import datetime
 from dotenv import load_dotenv
 from scipy import interpolate
 from scipy import stats as st
@@ -323,6 +324,20 @@ def capture_screen(area='all'):
     # Screenshot area
     img = pag.screenshot(region=(x, y, w, h))
     return img
+
+
+# Save specified area of the screen
+def save_screen(area='all'):
+
+    img = capture_screen(area=area)
+    img_file = os.path.join(os.getcwd(), 'images', datetime.datetime.now().strftime("screenshot %m%d%Y %I%M%S.png"))
+    if img_file:
+        img.save(img_file)
+        print(f"Screenshot of '%s' saved to '%s'." % (area, img_file))
+        return 1
+    else:
+        print("Error in save_screen(): image returned from capture_screen() is invalid.")
+        return 0
 
 
 # Returns specified skill level
