@@ -15,19 +15,26 @@ def create_gui():
 
     # Create frame
     frm_buttons = tk.Frame(relief=tk.SUNKEN, borderwidth=3)
-    frm_buttons.pack(fill=tk.X, ipadx=5, ipady=5)
+    frm_buttons.pack(fill=tk.X, ipadx=5, ipady=5, expand=True, fill=tk.BOTH, side=tk.LEFT)
+    
+    frm_2 = tk.Frame(relief=tk.SUNKEN, borderwidth=3)
+    frm_2.pack(expand=True, fill=tk.BOTH, side=tk.LEFT)
 
     # Place buttons in 2 columns on grid
     buttons = {}
-    for ii, _ in range(8):
+    for ii in range(12):
         buttons[ii] = tk.Button(master=frm_buttons, width=16)
         buttons[ii].grid(row=math.floor(ii/2), column=ii%2, sticky="e")
 
      # Add text and commands to buttons
     buttons[0].configure(text="Open RuneLite", command=lambda: open_rl())
     buttons[1].configure(text="Login", command=lambda: login_osrs())
-    buttons[6].configure(text="Screenshot all", command=lambda: save_screen(area='all'))
-    buttons[7].configure(text="Screenshot game", command=lambda: save_screen(area='game'))
+    buttons[6].configure(text="Screenshot game", command=lambda: save_screen(area='game'))
+    buttons[7].configure(text="Screenshot chat", command=lambda: save_screen(area='chat'))
+    buttons[8].configure(text="Screenshot minimap", command=lambda: save_screen(area='minimap'))
+    buttons[9].configure(text="Screenshot interface", command=lambda: save_screen(area='interface'))
+    buttons[10].configure(text="Screenshot sidebar", command=lambda: save_screen(area='runelite_sidebar'))
+    buttons[11].configure(text="Screenshot all", command=lambda: save_screen(area='all'))
     
     gui.mainloop()
 
