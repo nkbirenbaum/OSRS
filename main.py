@@ -9,6 +9,8 @@ from gui import *
 check_os_version()
 create_gui()
 
+
+
 # # Open RuneLite, login, & setup
 # check_os_version()
 # open_rl()

@@ -15,7 +15,7 @@ def create_gui():
 
     # Create frame
     frm_buttons = tk.Frame(relief=tk.SUNKEN, borderwidth=3)
-    frm_buttons.pack(fill=tk.X, ipadx=5, ipady=5, expand=True, fill=tk.BOTH, side=tk.LEFT)
+    frm_buttons.pack(ipadx=5, ipady=5, expand=True, fill=tk.BOTH, side=tk.LEFT)
     
     frm_2 = tk.Frame(relief=tk.SUNKEN, borderwidth=3)
     frm_2.pack(expand=True, fill=tk.BOTH, side=tk.LEFT)
