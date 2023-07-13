@@ -14,9 +14,10 @@ check_os_version()
 open_rl()
 focus_rl_window()
 update_rl_window_position()
+wait_login_screen()
 login_osrs()
-standardize_view()
+# standardize_view()
 
 # Start combat training
-highlight_npc('cow')
+# highlight_npc('cow')
 

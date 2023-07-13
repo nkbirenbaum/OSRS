@@ -239,6 +239,33 @@ def highlight_npc(npc_name='', replace_or_append='replace'):
 
     return 1
 
+# Wait for login screen to load by checking if "Existing User" button is visible
+def wait_login_screen(timeout=15):
+
+    # Get RuneLite window position
+    load_dotenv()
+    x = int(os.environ.get('RUNELITE_WINDOW_X'))
+    y = int(os.environ.get('RUNELITE_WINDOW_Y'))
+
+    # Set constants before while loop
+    t_end = time.time() + timeout
+    img_existing_user = os.path.join(os.getcwd(), 'images', 'login', 'existing user.png')
+    login_screen_found = False
+    
+    # Wait up to 'timeout' seconds for "Existing User" button to appear
+    while not(login_screen_found):
+        existing_user = pag.locateOnScreen(img_existing_user, region=(x+300, y+250, 400, 150), confidence=0.9)
+        if existing_user:
+            login_screen_found = True
+            break
+        if time.time() > t_end:
+            print(f"Error in wait_login_screen(): Failed to locate 'Existing User' button on screen after %i seconds." % (timeout))
+            return 0
+    
+    # Exit function successfully
+    print("Login screen loading complete.")
+    return 1
+        
 
 # Log in to the game
 def login_osrs():
